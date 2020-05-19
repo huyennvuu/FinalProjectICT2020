@@ -1,0 +1,10 @@
+.line {
+    width: 100vw;
+    height: 5px;
+    background-color: black;
+}
+.dinasour {
+    width: 30px;
+    height: 30px;
+    background-color: darkslategrey;
+}

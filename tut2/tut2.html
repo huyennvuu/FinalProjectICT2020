@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <tittle>Tutorial2</tittle>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>VueJS</title>
+        <script src = "vue.js"></script>
+        <link rel="stylesheet" href="app.css">
+    </head>
+    <body>
+        <div id="app1">
+            <input type="text" v-model="count  ">
+            <button v-on:click="count++">Increase</button>
+            <button v-on:click="count--">Decrease</button>
+            <button v-on:click="secondCounter++">Increase</button>
+            <p>{{ sayHello() }} - <a v-bind:href="link">Google</a></p>
+            <hr>
+            <p v-on:mousemove="updateCoordinate"> Coordinate: {{x}} - {{y}} --
+                <span v-on:mousemove.stop=""> DEAD SPOT</span>
+            </p>
+            <input type="text" v-on:keyup.enter.space="alertMe">
+            <hr>
+            <p>Template</p>
+            <input type="text" v-model="name">
+            <p>{{name}}</p>
+            <p>Result: {{result()}} | {{output}}</p>>
+        </div>
+
+        <hr>
+        <h1>Tutorial 2</h1>
+        <h2> Attaching CSS</h2>
+        <div id= 'app2'>
+            <div class="demo" 
+                @click="attachColor = !attachColor"
+                :class="{red: attachColor}"></div>
+            <div class="demo" :class = "{blue: !attachColor}"></div>
+            <div class="demo" :class = "{green: attachColor}"></div>
+            <hr>
+            <div class="demo" :style="{backgroundColor: color}"></div>
+            <input type="text" v-model="color">
+        </div>
+
+        <hr>
+        <h1>Tutorial 3</h1>
+        <div id= 'app3'>
+            <h2> v-if: completely remove or attach a html element </h2>
+            <p v-if = "showText"> You can see me!</p>
+            <p v-else=''> Do you also see me? </p>
+            <button @click = "showText = !showText">Switch Text</button>
+
+            <h2> Template </h2>
+            <template v-if = "showText">
+                <p> Inside a Template</p>
+            </template>
+
+            <h2> v-show: show or hide a html element</h2>
+            <p v-show="showText"> Do you also see me?</p>
+
+            <h2> List</h2>
+            <ul>
+                <li v-for = "(igr, i) in ingredients"> {{igr}} | {{i}}</li>
+                <li v-for = "(person,j) in persons">
+                    <div v-for = "(value,property,index) in person">
+                        {{++index}} - {{property}}: {{value}} 
+                    </div> ({{++j}})
+                </li>
+            </ul>
+            <input type="text" v-model="newIngredient">
+            <button @click="ingredients.push(newIngredient)">Add new ingredients</button>
+            <button @click="ingredients.pop()">Remove ingredients</button>
+
+            <hr>
+        </div>
+
+        <script src = "app.js"></script>
+    </body>
+</html>
