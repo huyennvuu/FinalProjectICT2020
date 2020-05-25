@@ -1,25 +1,34 @@
 <template>
-<div>
-    <app-header></app-header>
-    <app-server-details></app-server-details>
-    <app-footer></app-footer>
-</div>
+  <div id="app">
+    <app-sign-in></app-sign-in>
+  </div>
 </template>
 
 <script>
-import Footer from './Component/Shared/Footer.vue';
-import Header from './Component/Shared/Header.vue';
-import Server from './Component/Server/Servers.vue';
-import ServerDetails from './Component/Server/ServerDetails.vue';
+import SignIn from './Component/ServerDetails.vue'
+
 export default {
-    components: {
-        'app-footer': Footer,
-        'app-header': Header,
-        'app-server': Server,
-        'app-server-details': ServerDetails
-    }
+  name: 'app',
+  components: {
+    'app-sign-in': SignIn
+  }
 }
 </script>
 
-<style>
+<style >
+body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #app {
+    font-family: Tahoma;
+    font-size: 1.6rem;
+    color: #222;
+    background-color: #092525;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
