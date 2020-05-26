@@ -6,13 +6,11 @@
 </template>
 
 <script> 
-import SignIn from './views/SignIn.vue'
 import Header from './Component/Header.vue'
 
 export default {
   name: 'app',
   components: {
-    'app-sign-in': SignIn,
     'app-header': Header
   }
 }
