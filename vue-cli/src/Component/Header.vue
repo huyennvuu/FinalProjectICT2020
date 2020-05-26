@@ -1,10 +1,14 @@
 <template>
-    <div class = "header"> USTH OMS
+    <div class = "header" > <button @click="navToLogin"> USTH OMS</button>
     </div>
 </template>
 <script>
 export default {
-    
+    methods: {
+        navToLogin() {
+            this.$router.push('/');
+        }
+    }
 }
 </script>
 <style scoped>

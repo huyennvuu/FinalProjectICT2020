@@ -1,34 +1,37 @@
 <template>
-  <div id="app">
-    <app-sign-in></app-sign-in>
-  </div>
+<div >
+  <app-header></app-header>
+  <router-view id = "signIn"/>
+</div>
 </template>
 
-<script>
-import SignIn from './Component/ServerDetails.vue'
+<script> 
+import SignIn from './views/SignIn.vue'
+import Header from './Component/Header.vue'
 
 export default {
   name: 'app',
   components: {
-    'app-sign-in': SignIn
+    'app-sign-in': SignIn,
+    'app-header': Header
   }
 }
 </script>
 
-<style >
+<style scoped >
 body {
     margin: 0;
     padding: 0;
   }
 
-  #app {
-    font-family: Tahoma;
-    font-size: 1.6rem;
-    color: #222;
-    background-color: #092525;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+ #signIn{
+  font-family: Tahoma;
+  font-size: 1.6rem;
+  color: #222;
+  background-color: #eeeeee;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

@@ -1,38 +1,41 @@
 <template>
-  <article>
-    <div class="container" :class="{'sign-up-active' : signUp}">
+<div>
+	<article>
+    <div class="container" :class=" {'sign-up-active' : signUp}">
       <div class="overlay-container">
         <div class="overlay">
           <div class="overlay-left">
-            <h2>Welcome Back!</h2>
-            <p>Please login with your personal info</p>
-            <button class="invert" id="signIn" @click="signUp = !signUp">Sign In</button>
+			<h2>Hello, Friend!</h2>
+            <p>Please fill in the form</p>
+            <button class="invert" id="signIn" @click="signUp = !signUp">Have an Account ?</button>
           </div>
           <div class="overlay-right">
-            <h2>Hello, Friend!</h2>
-            <p>Please enter your personal details</p>
-            <button class="invert" id="signUp" @click="signUp = !signUp">Sign Up</button>
+            <h2>Welcome Back!</h2>
+            <p>Please login with your personal info</p>
+            <button class="invert" id="signUp" @click="signUp = !signUp">Need An Account ?</button>
           </div>
         </div>
       </div>
       <form class="sign-up" action="#">
-        <h2>Create login</h2>
-        <div>Use your email for registration</div>
-        <input type="text" placeholder="Name" />
+        <h2>Register Form</h2>
+        <input type="text" placeholder="Your Name" />
         <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
+		<input type="password" placeholder="Password" />
+		<input type="password" placeholder="Confirm password" />
         <button>Sign Up</button>
       </form>
       <form class="sign-in" action="#">
-        <h2>Sign In</h2>
+        <h2>Log In</h2>
         <div>Use your account</div>
         <input type="email" placeholder="Email" />
         <input type="password" placeholder="Password" />
         <a href="#">Forgot your password?</a>
-        <button>Sign In</button>
+        <button>Log In</button>
       </form>
     </div>
   </article>
+</div>
+  
 </template>
 
 <script scoped>
@@ -52,7 +55,6 @@
 	 height: 480px;
 	 border-radius: 10px;
 	 overflow: hidden;
-	 box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
 	 background: linear-gradient(to bottom, #efefef, #ccc);
 }
  .container .overlay-container {
@@ -70,7 +72,7 @@
 	 left: -100%;
 	 height: 100%;
 	 width: 200%;
-	 background: linear-gradient(to bottom right, #0300b3, #0300b3);
+	 background: linear-gradient(to bottom right, #004eb3, #004eb3);
 	 color: #fff;
 	 transform: translateX(0);
 	 transition: transform 0.5s ease-in-out;
@@ -118,8 +120,8 @@
 }
  button {
 	 border-radius: 20px;
-	 border: 1px solid #0300b3;
-	 background-color: #0300b3;
+	 border: 1px solid #004eb3;
+	 background-color: #004eb3;
 	 color: #fff;
 	 font-size: 1rem;
 	 font-weight: bold;
@@ -150,7 +152,7 @@
 	 width: calc(50% - 120px);
 	 height: calc(100% - 180px);
 	 text-align: center;
-	 background: linear-gradient(to bottom, #efefef, #ccc);
+	 background: linear-gradient(to bottom, #c2c2c2, #c2c2c2);
 	 transition: all 0.5s ease-in-out;
 }
  form div {
@@ -164,7 +166,6 @@
 	 width: calc(100% - 30px);
 	 border-radius: 15px;
 	 border-bottom: 1px solid #ddd;
-	 box-shadow: inset 0 1px 2px rgba(0, 0, 0, .4), 0 -1px 1px #fff, 0 1px 0 #fff;
 	 overflow: hidden;
 }
  form input:focus {
