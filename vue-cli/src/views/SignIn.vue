@@ -1,6 +1,6 @@
 <template>
 <div>
-	<article>
+	<article class="signIn">
     <div class="container" :class=" {'sign-up-active' : signUp}">
       <div class="overlay-container">
         <div class="overlay">
@@ -49,6 +49,17 @@
 </script>
 
 <style scoped>
+.signIn{
+  font-family: Tahoma;
+  font-size: 1.6rem;
+  color: #222;
+  background-color: #eeeeee;
+  height: 90vh;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
   .container {
 	 position: relative;
 	 width: 768px;

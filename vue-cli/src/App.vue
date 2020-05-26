@@ -1,7 +1,7 @@
 <template>
 <div >
-  <app-header class = "header"></app-header>
-  <router-view class = "signIn"/>
+  <app-header ></app-header>
+  <router-view />
 </div>
 </template>
 
@@ -19,23 +19,4 @@ export default {
 </script>
 
 <style scoped >
-body {
-    margin: 0;
-    padding: 0;
-  }
-  .header{
-    height: 10vh;
-    justify-content: center;
-  align-items: center;
-  }
- .signIn{
-  font-family: Tahoma;
-  font-size: 1.6rem;
-  color: #222;
-  background-color: #eeeeee;
-  height: 90vh;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-}
 </style>

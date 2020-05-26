@@ -22,6 +22,6 @@ export default {
     background-color: #004eb3;
     color: white;
     padding: 20px 0;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 </style>
