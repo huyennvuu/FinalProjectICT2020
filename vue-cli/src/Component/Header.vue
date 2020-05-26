@@ -1,5 +1,5 @@
 <template>
-    <div class = "header" > <button @click="navToLogin"> USTH OMS</button>
+    <div class = "header" > <h1 @click="navToLogin"> USTH OMS</h1>
     </div>
 </template>
 <script>
@@ -13,12 +13,13 @@ export default {
 </script>
 <style scoped>
 .header {
+    font-family: Tahoma;
+    font-size: 1.6rem;
     font-size: 20px;
-    position:absolute;
     left: 0;
     top: 0;
     width: 100%;
-    background-color: cornflowerblue;
+    background-color: #004eb3;
     color: white;
     padding: 20px 0;
     padding-left: 10px;
