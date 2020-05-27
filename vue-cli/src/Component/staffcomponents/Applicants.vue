@@ -85,7 +85,6 @@ p {
 .idCheckbox {
 }
 
-
 .applicant-view {
     width: auto;
     height: 92%;

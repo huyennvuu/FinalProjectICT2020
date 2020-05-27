@@ -20,7 +20,7 @@ export default {
     width: auto;
     background-color: #004eb3;
     color: white;
-    padding: 10px 0;
+    padding: 20px 0;
     padding-left: 20px;
 }
 </style>
