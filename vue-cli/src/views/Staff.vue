@@ -40,7 +40,7 @@ export default {
 <style scoped>
 ul {
   font-family: Tahoma;
-  font-size: 1.2rem;
+  font-size: 1.5vw;
   list-style-type: none;
   margin: 0;
   padding: 0;

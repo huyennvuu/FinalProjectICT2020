@@ -14,13 +14,13 @@ export default {
 <style scoped>
 .header {
     font-family: Tahoma;
-    font-size: 1.6rem;
+    font-size: 1.6vw;
     left: 0;
     top: 0;
     width: auto;
     background-color: #004eb3;
     color: white;
-    padding: 20px 0;
+    padding: 10px 0;
     padding-left: 20px;
 }
 </style>
