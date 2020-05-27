@@ -60,7 +60,7 @@
   align-items: center;
   width: 100vw;
 }
-  .container {
+.container {
 	 position: relative;
 	 width: 768px;
 	 height: 480px;

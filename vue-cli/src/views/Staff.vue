@@ -1,28 +1,58 @@
 <template>
     <div>
         <ul>
-  <li><a class="active" href="#home">Home</a></li>
-  <li><a href="#news">Applicants</a></li>
-  <li><a href="#contact">Wave</a></li>
-  <li><a href="#about">Interview Jury</a></li>
-  <li><a href="#about">Account</a></li>
-</ul>
+            <li><a :class="{active: selectedComponents === 'staffHome'}" @click="selectedComponents = 'staffHome'">Home</a></li>
+            <li><a :class="{active: selectedComponents === 'applicantsList'}" @click="selectedComponents = 'applicantsList'">Applicants</a></li>
+            <li><a :class="{active: selectedComponents === 'waveEnroll'}" @click="selectedComponents = 'waveEnroll'">Wave</a></li>
+            <li><a :class="{active: selectedComponents === 'interviewJury'}" @click="selectedComponents = 'interviewJury'">Interview Jury</a></li>
+            <li><a :class="{active: selectedComponents === 'staffAccounts'}" @click="selectedComponents = 'staffAccount'">Account</a></li>
+        </ul>
+        <div>
+            <keep-alive>
+            <component :is = "selectedComponents"  ></component>
+            </keep-alive>
+        </div>
+        
     </div>
 </template>
+<script>
+import Home from '../Component/staffcomponents/HomeStaff.vue'
+import Applicants from '../Component/staffcomponents/Applicants.vue'
+import Wave from '../Component/staffcomponents/Wave.vue'
+import InterviewJury from '../Component/staffcomponents/InterviewJury.vue'
+import Account from '../Component/staffcomponents/Accounts.vue'
+export default {
+    data: function(){
+        return {
+            selectedComponents: 'staffHome',
+            active: null
+        }
+    },
+    components: {
+        staffHome: Home,
+        applicantsList: Applicants,
+        waveEnroll: Wave,
+        interviewJury: InterviewJury,
+        staffAccount: Account
+    }
+}
+</script>
 <style scoped>
 ul {
-    font-family: Tahoma;
-    font-size: 1.2rem;
+  font-family: Tahoma;
+  font-size: 1.2rem;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: rgb(190, 190, 190);
-  width: 100vw
+  width: auto
 }
 
 li {
+  box-sizing: border-box;
   float: left;
+  border-right: 1px solid rgb(66, 66, 66);
   width: 20%;
 }
 
@@ -36,7 +66,7 @@ li a {
 
 li a:hover:not(.active) {
   background-color: #111;
-  color: white;
+  color: white ;
 }
 
 .active {

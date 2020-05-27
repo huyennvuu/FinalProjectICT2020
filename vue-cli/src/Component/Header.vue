@@ -15,10 +15,9 @@ export default {
 .header {
     font-family: Tahoma;
     font-size: 1.6rem;
-    font-size: 20px;
     left: 0;
     top: 0;
-    width: 100%;
+    width: auto;
     background-color: #004eb3;
     color: white;
     padding: 20px 0;
