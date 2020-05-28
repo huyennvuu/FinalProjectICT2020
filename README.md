@@ -5,11 +5,11 @@
 ## Build Setup
 
 ``` bash
-# install dependencies
-npm install
-
 # open vue project
 cd path/FinalProjectICT2020/vue-cli
+
+# install dependencies
+npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
