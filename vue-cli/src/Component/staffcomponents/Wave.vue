@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div style="height: 50vh">
-             <div v-for="i in 3" class="wave-container">
+        <div style="height: 50vh; overflow-y: scroll ;">
+             <div v-for="id in waveID" :key ="id" class="wave-container">
             <div class="infor-session">
                 <div class="wave-name">
-                Wave Name {{i}}
+                Wave Name {{id}}
                 </div>
                 <div class="wave-infor"> Wave Infor</div>
             </div>
@@ -20,14 +20,19 @@
                     justify-content: center;
                     align-items: center;
                     height: 20vh;">
-                    <button id="addWave"> Add new wave</button>
+                    <button id="addWave" @click="waveID.push(++count)"> Add new wave</button>
         </div>
         
     </div>
 </template>
 <script>
 export default {
-    
+    data() {
+       return {
+            waveID: [1,2,3],
+            count: 3
+       } 
+    }
 }
 </script>
 <style scoped>

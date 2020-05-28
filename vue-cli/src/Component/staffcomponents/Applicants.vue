@@ -12,6 +12,9 @@
                     <span>Applicant list view | {{i}}</span>
                     <p>20-1-2020 | Female | ICT</p>
                </div>
+               <div class="status-view">
+                   Status: Not approved
+                </div>
            </div>
         </div>
     </div>
@@ -24,7 +27,6 @@
         </div>
         <div class = "action-block">
         </div>
-        
     </div>
 
 </div>
@@ -99,5 +101,11 @@ p {
     width: 100%;
     height: 8%;
     background-color: blanchedalmond;
+}
+
+.status-view {
+    display: table-cell;
+     padding: 0.5vh 0;
+     font-size: 1.5vh;
 }
 </style>
