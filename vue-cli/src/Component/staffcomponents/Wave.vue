@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-container  fluid style="margin: 0px; padding: 0px; width: 100%; height: 90vh">
         <div style="height: 50vh; overflow-y: scroll ;">
              <div v-for="id in waveID" :key ="id" class="wave-container">
             <div class="infor-session">
@@ -10,7 +10,7 @@
             </div>
             <div class="button-session">
                 <button>Edit</button> 
-                <button @click="removeElement(id); count--">Delete</button> 
+                <button @click="removeWave(id); count--">Delete</button> 
             </div>
 
         </div>
@@ -21,10 +21,10 @@
                     align-items: center;
                     height: 20vh;">
                     <input type="text" placeholder="New Wave Name" v-model="newWave">
-                    <button id="addWave" @click="waveID.push(newWave)"> Add new wave</button>
+                    <button id="addWave" @click="addWave(newWave)"> Add new wave</button>
         </div>
         
-    </div>
+    </v-container>
 </template>
 <script>
 export default {
@@ -36,12 +36,21 @@ export default {
        } 
     },
     methods: {
-        removeElement: function (index) {
+        removeWave: function (index) {
                 for(var i =0; i < this.waveID.length; i++){
                     if(this.waveID[i] == index)
                      this.waveID.splice(i,1)
                 }
+        },
+        addWave: function(wavename) {
+            for(var i =0; i < this.waveID.length; i++){
+                    if(this.waveID[i] == wavename)
+                     alert("Existed wave")
+                }
+            this.waveID.push(wavename);
+            console.log(this.waveID)
         }
+
     }
 }
 </script>

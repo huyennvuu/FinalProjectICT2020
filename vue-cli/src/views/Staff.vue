@@ -1,18 +1,23 @@
 <template>
     <div>
-        <ul>
-            <li><a :class="{active: selectedComponents === 'staffHome'}" @click="selectedComponents = 'staffHome'">Home</a></li>
-            <li><a :class="{active: selectedComponents === 'applicantsList'}" @click="selectedComponents = 'applicantsList'">Applicants</a></li>
-            <li><a :class="{active: selectedComponents === 'waveEnroll'}" @click="selectedComponents = 'waveEnroll'">Wave</a></li>
-            <li><a :class="{active: selectedComponents === 'interviewJury'}" @click="selectedComponents = 'interviewJury'">Interview Jury</a></li>
-            <li><a :class="{active: selectedComponents === 'staffAccounts'}" @click="selectedComponents = 'staffAccount'">Account</a></li>
-        </ul>
-        <div>
-            <keep-alive>
-            <component :is = "selectedComponents"  ></component>
-            </keep-alive>
-        </div>
-        
+    <v-card>
+    <v-tabs
+      light
+      fixed-tabs
+      background-color="teal darken-3">
+        <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+        <v-tab :class="{active: selectedComponents === 'staffHome'}" @click="selectedComponents = 'staffHome'">Home</v-tab>
+        <v-tab :class="{active: selectedComponents === 'applicantsList'}" @click="selectedComponents = 'applicantsList'">Applicants</v-tab>
+        <v-tab :class="{active: selectedComponents === 'waveEnroll'}" @click="selectedComponents = 'waveEnroll'">Wave</v-tab>
+        <v-tab :class="{active: selectedComponents === 'interviewJury'}" @click="selectedComponents = 'interviewJury'">Interview Jury</v-tab>
+        <v-tab :class="{active: selectedComponents === 'staffAccounts'}" @click="selectedComponents = 'staffAccount'">Account</v-tab>
+      </v-tabs>
+      <v-layout fluid height=90vh>
+          <keep-alive>
+          <component :is = "selectedComponents"  ></component>
+          </keep-alive>
+      </v-layout>
+      </v-card>
     </div>
 </template>
 <script>

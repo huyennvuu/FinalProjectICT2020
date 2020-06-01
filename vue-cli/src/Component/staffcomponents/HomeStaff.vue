@@ -1,5 +1,5 @@
 <template>
-<div class ="box">
+<v-container fluid>
     <div class = "donutChart">Chart area</div>
     <hr>
     <div class = "list">
@@ -13,7 +13,7 @@
                 </div>
         </div>
     </div>
-</div>
+</v-container>
 </template>
 <script>
 export default {

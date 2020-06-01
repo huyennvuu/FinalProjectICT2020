@@ -1,35 +1,37 @@
 <template>
-<div class = "container">
-    
-    <div class ="col">
-        <div class = "action-block">Filter area</div>
-       <div class= "applicant-list"> 
-           <div class = "applicant" v-for="i in 100" @click="applicantInfor = i">
-               <div class="checkboxContainer">
-                   <input class = "idCheckbox" type="checkbox"/>
-               </div>
-               <div class="infoApp">
-                    <span>Applicant list view | {{i}}</span>
-                    <p>20-1-2020 | Female | ICT</p>
-               </div>
-               <div class="status-view">
-                   Status: Not approved
-                </div>
-           </div>
-        </div>
-    </div>
+ <v-container fluid style="margin: 0px; padding: 0px; width: 100%; height: 90vh" >
+          <v-col>
+              <div class = "action-block">Filter area</div>
+              <div class= "applicant-list"> 
+                    <div class = "applicant" v-for="i in 100" @click="applicantInfor = i">
 
-    <div class ="col">
-       <div class= "applicant-view"> 
+                        <div class="checkboxContainer">
+                            <input class = "idCheckbox" type="checkbox"/>
+                        </div>
+
+                        <div class="infoApp">
+                                <span>Applicant list view | {{i}}</span>
+                                <p>20-1-2020 | Female | ICT</p>
+                        </div>
+
+                        <div class="status-view">
+                            Status: Not approved
+                        </div>
+
+                    </div>
+                </div>
+          </v-col>
+          <v-divider></v-divider>
+          <v-col>
+              <div class= "applicant-view"> 
            <div class="view-content">
            This is the view of applicant with ID {{applicantInfor}}
            </div>
         </div>
         <div class = "action-block">
         </div>
-    </div>
-
-</div>
+          </v-col>
+     </v-container>
 </template>
 <script>
 export default {
@@ -41,10 +43,6 @@ export default {
 }
 </script>
 <style scoped>
-.container{
-    width: auto;
-    height: 80vh;
-}
 .col {
     float: left;
     width: 50%;
@@ -84,9 +82,6 @@ p {
     display: table-cell;
     padding: 1vh 0;
 }
-.idCheckbox {
-}
-
 .applicant-view {
     width: auto;
     height: 92%;
