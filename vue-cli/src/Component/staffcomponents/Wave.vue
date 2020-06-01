@@ -10,7 +10,7 @@
             </div>
             <div class="button-session">
                 <button>Edit</button> 
-                <button>Delete</button> 
+                <button @click="removeElement(id); count--">Delete</button> 
             </div>
 
         </div>
@@ -20,7 +20,8 @@
                     justify-content: center;
                     align-items: center;
                     height: 20vh;">
-                    <button id="addWave" @click="waveID.push(++count)"> Add new wave</button>
+                    <input type="text" placeholder="New Wave Name" v-model="newWave">
+                    <button id="addWave" @click="waveID.push(newWave)"> Add new wave</button>
         </div>
         
     </div>
@@ -30,8 +31,17 @@ export default {
     data() {
        return {
             waveID: [1,2,3],
-            count: 3
+            count: 3,
+            newWave: undefined,
        } 
+    },
+    methods: {
+        removeElement: function (index) {
+                for(var i =0; i < this.waveID.length; i++){
+                    if(this.waveID[i] == index)
+                     this.waveID.splice(i,1)
+                }
+        }
     }
 }
 </script>
