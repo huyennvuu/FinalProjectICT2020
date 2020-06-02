@@ -5,7 +5,7 @@
         <v-card-title>Dialog 2</v-card-title>
         <v-card-text>
           <v-btn color="primary" dark @click="dialog3 = !dialog3">Open Dialog 3</v-btn>
-          <v-select :items="select" label="A Select List" item-value="text"></v-select>
+          <v-select label="A Select List" item-value="text"></v-select>
         </v-card-text>
         <v-card-actions>
           <v-btn color="primary" text @click="dialog2 = false">Close</v-btn>
@@ -50,13 +50,9 @@
       </div>
     </v-col>
 
-    <v-divider></v-divider>
-
     <v-col>
       <div class="applicant-view">
-        <div
-          class="view-content"
-        >This is the view of applicant with ID {{applicantInfor}} {{dialog2}}</div>
+          <iframe src="./file-test/test.pdf" style="width:100%; height:100%"></iframe>
       </div>
       <v-card flat>
         <v-card-text>
@@ -67,7 +63,7 @@
               <v-btn small color="warning" dark>Pending</v-btn>
             </div>
             <v-spacer></v-spacer>
-              <v-btn small color="warning" dark>Export PDF</v-btn>
+            <v-btn small color="warning" dark>Export PDF</v-btn>
           </v-row>
         </v-card-text>
       </v-card>
@@ -99,7 +95,6 @@ export default {
 .applicant-view {
   width: auto;
   height: 92%;
-  overflow-y: scroll;
   background-color: rgb(221, 221, 221);
 }
 .view-content {
