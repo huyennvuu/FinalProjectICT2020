@@ -1,7 +1,28 @@
 <template>
-  <v-container fluid style="margin: 0px; padding: 0px; width: 100%; height: 90vh">
+  <v-container fluid style="margin: 0px; padding: 0px; width: 100%; height: 80vh">
+    <v-dialog v-model="dialog2" max-width="500px">
+      <v-card>
+        <v-card-title>Dialog 2</v-card-title>
+        <v-card-text>
+          <v-btn color="primary" dark @click="dialog3 = !dialog3">Open Dialog 3</v-btn>
+          <v-select :items="select" label="A Select List" item-value="text"></v-select>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" text @click="dialog2 = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-col>
-      <div class="action-block">Filter area</div>
+      <v-toolbar dark color="blue darken-3">
+        <v-icon>mdi-magnify</v-icon>
+        <v-text-field clearable flat solo-inverted hide-details label="Search"></v-text-field>
+
+        <v-spacer></v-spacer>
+        <v-btn color="dark" class="ma-2" light @click="dialog2 = true" laber="Filter">
+          <v-icon>mdi-format-list-bulleted-square</v-icon>
+        </v-btn>
+      </v-toolbar>
+
       <div class="applicant-list">
         <v-list shaped>
           <v-list-item-group>
@@ -11,50 +32,45 @@
               @click="applicantInfor = i"
               v-slot:default="{ active, toggle }"
             >
-              <template :color="active ? undefined : 'grey lighten-1'" @click="toggle">
-                <v-list-item-action>
-                  <v-checkbox color="primary"></v-checkbox>
-                </v-list-item-action>
-
+              <template :color="active ? undefined : 'grey darken-3'" @click="toggle">
                 <v-list-item-content>
-                  <v-list-item-title>Applicant {{i}}</v-list-item-title>
-                  <v-list-item-subtitle>Applicants Infor</v-list-item-subtitle>
+                  <v-list-item-title>Applicant Name: {{i}}</v-list-item-title>
+                  <v-list-item-subtitle
+                    wrap
+                  >Department: Information Communication Technology | Score: 8.0 | Gender: Female</v-list-item-subtitle>
                 </v-list-item-content>
-
-                <v-list-item-content>
+                <div>
                   <v-list-item-title>Status:</v-list-item-title>
-                  <v-list-item-subtitle>Not Approved</v-list-item-subtitle>
-                </v-list-item-content>
+                  <v-chip color="warning" text-color="white" x-small>Pending</v-chip>
+                </div>
               </template>
             </v-list-item>
           </v-list-item-group>
         </v-list>
       </div>
     </v-col>
+
     <v-divider></v-divider>
+
     <v-col>
       <div class="applicant-view">
-        <div class="view-content">This is the view of applicant with ID {{applicantInfor}}</div>
+        <div
+          class="view-content"
+        >This is the view of applicant with ID {{applicantInfor}} {{dialog2}}</div>
       </div>
-      <div class="action-block">
-        <v-card flat class="py-12">
-          <v-card-text>
-            <v-row>
-              <v-btn-toggle v-model="toggle_exclusive" rounded>
-                <v-btn>
-                  Approve
-                </v-btn>
-                <v-btn>
-                  Reject
-                </v-btn>
-                <v-btn>
-                  Pending
-                </v-btn>
-              </v-btn-toggle>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </div>
+      <v-card flat>
+        <v-card-text>
+          <v-row>
+            <div class="my-2" left>
+              <v-btn small color="success" dark>Approve</v-btn>
+              <v-btn small color="error" dark>Reject</v-btn>
+              <v-btn small color="warning" dark>Pending</v-btn>
+            </div>
+            <v-spacer></v-spacer>
+              <v-btn small color="warning" dark>Export PDF</v-btn>
+          </v-row>
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-container>
 </template>
@@ -62,7 +78,8 @@
 export default {
   data: function() {
     return {
-      applicantInfor: null
+      applicantInfor: null,
+      dialog2: false
     };
   }
 };
@@ -83,7 +100,7 @@ export default {
   width: auto;
   height: 92%;
   overflow-y: scroll;
-  background-color: rgb(175, 210, 255);
+  background-color: rgb(221, 221, 221);
 }
 .view-content {
   padding: 3%;

@@ -3,15 +3,26 @@
     <div class = "donutChart">Chart area</div>
     <hr>
     <div class = "list">
-        <div class = "applicant" v-for="i in 10" @click="applicantInfor = i">
-               <div class="infoApp">
-                    <span>Applicant list view | {{i}}</span>
-                    <p>20-1-2020 | Female | ICT</p>
-               </div>
-               <div class="status-view">
-                   Status: Not approved
+        <v-list shaped>
+          <v-list-item-group>
+            <v-list-item
+              v-for="i in 10"
+              :key="i"
+            >
+              <template>
+                <v-list-item-content>
+                  <v-list-item-title>Applicant Name: {{i}}</v-list-item-title>
+                  <v-list-item-subtitle
+                  >Department: Information Communication Technology | Score: 8.0 | Gender: Female</v-list-item-subtitle>
+                </v-list-item-content>
+                <div>
+                  <v-list-item-title>Status:</v-list-item-title>
+                  <v-chip color="warning" text-color="white" x-small>Pending</v-chip>
                 </div>
-        </div>
+              </template>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
     </div>
 </v-container>
 </template>
@@ -33,39 +44,5 @@ export default {
     background-color: rgb(255, 255, 255);
     overflow-y: scroll
 }
-.applicant {
-    font-family: Tahoma;
-    box-sizing: border-box;
-    height: 10%;
-    display: table;
-    width: 100%;
-    border-bottom: 0.5px solid rgb(66, 66, 66);
-}
-.infoApp {
-    width: 80%;
-    padding: 0.5vh 0;
-}
-span {
-  display: table-row;
-  font-size: 2vh;
-}
-p {
-  display: table-row;
-  font-size: 1.5vh;
-}
 
-.applicant:hover {
-  background-color: rgb(224, 224, 224);
-}
-
-.checkboxContainer {
-    display: table-cell;
-    padding: 1vh 0;
-}
-.status-view {
-    display: table-cell;
-    padding: 0.5vh 0;
-    font-size: 1.5vh;
-    width: 20%;
-}
 </style>

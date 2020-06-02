@@ -1,46 +1,58 @@
 <template>
-    <div>
+  <div>
     <v-card>
-    <v-tabs
-      light
-      fixed-tabs
-      background-color="teal darken-3">
-        <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
-        <v-tab :class="{active: selectedComponents === 'staffHome'}" @click="selectedComponents = 'staffHome'">Home</v-tab>
-        <v-tab :class="{active: selectedComponents === 'applicantsList'}" @click="selectedComponents = 'applicantsList'">Applicants</v-tab>
-        <v-tab :class="{active: selectedComponents === 'waveEnroll'}" @click="selectedComponents = 'waveEnroll'">Wave</v-tab>
-        <v-tab :class="{active: selectedComponents === 'interviewJury'}" @click="selectedComponents = 'interviewJury'">Interview Jury</v-tab>
-        <v-tab :class="{active: selectedComponents === 'staffAccounts'}" @click="selectedComponents = 'staffAccount'">Account</v-tab>
+      <v-tabs light fixed-tabs background-color="white darken-3">
+        <v-tabs-slider dark color="blue darken-3"></v-tabs-slider>
+        <v-tab
+          :class="{active: selectedComponents === 'staffHome'}"
+          @click="selectedComponents = 'staffHome'"
+        >Home</v-tab>
+        <v-tab
+          :class="{active: selectedComponents === 'applicantsList'}"
+          @click="selectedComponents = 'applicantsList'"
+        >Applicants</v-tab>
+        <v-tab
+          :class="{active: selectedComponents === 'waveEnroll'}"
+          @click="selectedComponents = 'waveEnroll'"
+        >Wave</v-tab>
+        <v-tab
+          :class="{active: selectedComponents === 'interviewJury'}"
+          @click="selectedComponents = 'interviewJury'"
+        >Interview Jury</v-tab>
+        <v-tab
+          :class="{active: selectedComponents === 'staffAccounts'}"
+          @click="selectedComponents = 'staffAccount'"
+        >Account</v-tab>
       </v-tabs>
-      <v-layout fluid height=90vh>
-          <keep-alive>
-          <component :is = "selectedComponents"  ></component>
-          </keep-alive>
+      <v-layout fluid height="90vh">
+        <keep-alive>
+          <component :is="selectedComponents"></component>
+        </keep-alive>
       </v-layout>
-      </v-card>
-    </div>
+    </v-card>
+  </div>
 </template>
 <script>
-import Home from '../Component/staffcomponents/HomeStaff.vue'
-import Applicants from '../Component/staffcomponents/Applicants.vue'
-import Wave from '../Component/staffcomponents/Wave.vue'
-import InterviewJury from '../Component/staffcomponents/InterviewJury.vue'
-import Account from '../Component/staffcomponents/Accounts.vue'
+import Home from "../Component/staffcomponents/HomeStaff.vue";
+import Applicants from "../Component/staffcomponents/Applicants.vue";
+import Wave from "../Component/staffcomponents/Wave.vue";
+import InterviewJury from "../Component/staffcomponents/InterviewJury.vue";
+import Account from "../Component/staffcomponents/Accounts.vue";
 export default {
-    data: function(){
-        return {
-            selectedComponents: 'staffHome',
-            active: null
-        }
-    },
-    components: {
-        staffHome: Home,
-        applicantsList: Applicants,
-        waveEnroll: Wave,
-        interviewJury: InterviewJury,
-        staffAccount: Account
-    }
-}
+  data: function() {
+    return {
+      selectedComponents: "staffHome",
+      active: null
+    };
+  },
+  components: {
+    staffHome: Home,
+    applicantsList: Applicants,
+    waveEnroll: Wave,
+    interviewJury: InterviewJury,
+    staffAccount: Account
+  }
+};
 </script>
 <style scoped>
 ul {
@@ -51,7 +63,7 @@ ul {
   padding: 0;
   overflow: hidden;
   background-color: rgb(190, 190, 190);
-  width: auto
+  width: auto;
 }
 
 li {
@@ -71,11 +83,11 @@ li a {
 
 li a:hover:not(.active) {
   background-color: #111;
-  color: white ;
+  color: white;
 }
 
 .active {
   background-color: rgb(255, 255, 255);
-  color: black
+  color: black;
 }
 </style>
