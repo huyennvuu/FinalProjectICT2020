@@ -1,231 +1,170 @@
 <template>
-<div>
-	<article class="signIn">
-    <div class="container" :class=" {'sign-up-active' : signUp}">
-      <div class="overlay-container">
-        <div class="overlay">
-          <div class="overlay-left">
-			<h2>Hello, Friend!</h2>
-            <p>Please fill in the form</p>
-            <button class="invert" id="signIn" @click="signUp = !signUp">Have an Account ?</button>
-          </div>
-          <div class="overlay-right">
-            <h2>Welcome Back!</h2>
-            <p>Please login with your personal info</p>
-            <button class="invert" id="signUp" @click="signUp = !signUp">Need An Account ?</button>
-          </div>
-        </div>
-      </div>
-      <form class="sign-up" action="#">
-        <h2>Register Form</h2>
-        <input type="text" placeholder="Your Name" />
-        <input type="email" placeholder="Email" />
-		<input type="password" placeholder="Password" />
-		<input type="password" placeholder="Confirm password" />
-        <button>Sign Up</button>
-      </form>
-      <form class="sign-in" action="#">
-        <h2>Log In</h2>
-        <div>Use your account</div>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <a href="#">Forgot your password?</a>
-        <button>Log In</button>
-      </form>
-    </div>
-  </article>
-</div>
-  
-</template>
-
-<script scoped>
-  export default {
-    data: () => {
-      return {
-        signUp: false
+  <v-app>
+    <v-dialog v-model="dialogForget" max-width="500px">
+      <v-card>
+        <v-card-title>Filter</v-card-title>
+        <v-card-text></v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" text @click="dialogForget = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-content>
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="8">
+            <v-card class="elevation-12">
+              <v-window v-model="step">
+                <v-window-item :value="1">
+                  <v-row>
+                    <v-col cols="12" md="8">
+                      <v-card-text class="mt-12">
+                        <h1 class="text-center display-2 blue--text text--darken-3">Sign In</h1>
+                        <h4 class="text-center mlt-4">Ensure your email for registration</h4>
+                        <v-form>
+                          <v-text-field
+                            label="Email"
+                            name="Email"
+                            prepend-icon="mdi-email"
+                            type="text"
+                            color="blue darken-3"
+                          />
+                          <v-text-field
+                            id="password"
+                            label="Password"
+                            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="[rules.required, rules.min]"
+                            :type="show ? 'text' : 'password'"
+                            name="Email"
+                            prepend-icon="mdi-lock"
+                            color="blue darken-3"
+                            hint="At least 8 character"
+                            @click:append="show =!show"
+                          />
+                        </v-form>
+                        <h3
+                          class="text-center mt-3"
+                          @click="dialogForget = true"
+                        >Forget your password ?</h3>
+                      </v-card-text>
+                      <div class="text-center mt-3">
+                        <v-btn rounded color="blue darken-3" dark>SIGN IN</v-btn>
+                      </div>
+                    </v-col>
+                    <v-col cols="12" md="4" class="blue darken-3">
+                      <v-card-text class="white--text mt-12">
+                        <h1 class="text-center display-1">Hello Friend!</h1>
+                        <h5 class="text-center">Enter your information</h5>
+                      </v-card-text>
+                      <div class="text-center">
+                        <v-btn rounded outlined @click="step++" dark>Need an account?</v-btn>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-window-item>
+                <v-window-item :value="2">
+                  <v-row class="fill-height">
+                    <v-col cols="12" md="4" class="blue darken-3">
+                      <v-card-text class="white--text mt-12">
+                        <h1 class="text-center display-1">Hello Friend!</h1>
+                        <h5 class="text-center">Enter your information</h5>
+                      </v-card-text>
+                      <div class="text-center">
+                        <v-btn rounded outlined @click="step--" dark>Already have an account?</v-btn>
+                      </div>
+                    </v-col>
+                    <v-col cols="12" md="8">
+                      <v-card-text class="mt-12">
+                        <h1 class="text-center display-2 blue--text text--darken-3">Sign Up</h1>
+                        <h4 class="text-center mlt-4">Create an account</h4>
+                        <v-form>
+                          <v-text-field
+                            label="Username"
+                            name="Username"
+                            prepend-icon="mdi-account"
+                            type="text"
+                            color="blue darken-3"
+                          />
+                          <v-text-field
+                            label="Email"
+                            name="Email"
+                            prepend-icon="mdi-email"
+                            type="text"
+                            color="blue darken-3"
+                          />
+                          <v-text-field
+                            id="password"
+                            label="Password"
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="[rules.required, rules.min]"
+                            :type="show1 ? 'text' : 'password'"
+                            name="Email"
+                            prepend-icon="mdi-lock"
+                            color="blue darken-3"
+                            hint="At least 8 character"
+                            @click:append="show1 =!show1"
+                          />
+                          <v-text-field
+                            id="password"
+                            label="Confirm Password"
+                            name="Email"
+                            prepend-icon="mdi-correct"
+                            type="password"
+                            color="blue darken-3"
+                          />
+                          <div class="text-center mt-3">
+                            <v-checkbox color="blue darken-3">
+                              <template v-slot:label>
+                                <div @click.stop>
+                                  Do you accept the
+                                  <a
+                                    href="javascript:;"
+                                    @click.stop="terms = true"
+                                  >terms</a>
+                                  and
+                                  <a
+                                    href="javascript:;"
+                                    @click.stop="conditions = true"
+                                  >conditions?</a>
+                                </div>
+                              </template>
+                            </v-checkbox>
+                          </div>
+                        </v-form>
+                      </v-card-text>
+                      <div class="text-center mt-3">
+                        <v-btn rounded color="blue darken-3" dark>SIGN UP</v-btn>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-window-item>
+              </v-window>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
+  </v-app>
+</template>>
+<script>
+export default {
+  data: () => {
+    return {
+      step: 1,
+      dialogForget: false,
+      show: false,
+      show1: false,
+      rules: {
+        required: value => !!value || "Required!",
+        min: v => v.length >= 8 || "Min 8 characters"
       }
-    }
+    };
+  },
+  props: {
+    source: String
   }
+};
 </script>
 
 <style scoped>
-.signIn{
-  font-family: Tahoma;
-  font-size: 1.6rem;
-  color: #222;
-  background-color: #eeeeee;
-  height: 90vh;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-}
-.container {
-	 position: relative;
-	 width: 768px;
-	 height: 480px;
-	 border-radius: 10px;
-	 overflow: hidden;
-	 background: linear-gradient(to bottom, #efefef, #ccc);
-}
- .container .overlay-container {
-	 position: absolute;
-	 top: 0;
-	 left: 50%;
-	 width: 50%;
-	 height: 100%;
-	 overflow: hidden;
-	 transition: transform 0.5s ease-in-out;
-	 z-index: 100;
-}
- .container .overlay {
-	 position: relative;
-	 left: -100%;
-	 height: 100%;
-	 width: 200%;
-	 background: linear-gradient(to bottom right, #004eb3, #004eb3);
-	 color: #fff;
-	 transform: translateX(0);
-	 transition: transform 0.5s ease-in-out;
-}
- .container .overlay-left {
-	 position: absolute;
-	 top: 0;
-	 display: flex;
-	 align-items: center;
-	 justify-content: space-around;
-	 flex-direction: column;
-	 padding: 70px 40px;
-	 width: calc(50% - 80px);
-	 height: calc(100% - 140px);
-	 text-align: center;
-	 transform: translateX(-20%);
-	 transition: transform 0.5s ease-in-out;
-}
- .container .overlay-right {
-	 position: absolute;
-	 top: 0;
-	 display: flex;
-	 align-items: center;
-	 justify-content: space-around;
-	 flex-direction: column;
-	 padding: 70px 40px;
-	 width: calc(50% - 80px);
-	 height: calc(100% - 140px);
-	 text-align: center;
-	 transform: translateX(0);
-	 transition: transform 0.5s ease-in-out;
-	 right: 0;
-}
- h2 {
-	 margin: 0;
-}
- p {
-	 margin: 20px 0 30px;
-}
- a {
-	 color: #222;
-	 text-decoration: none;
-	 margin: 15px 0;
-	 font-size: 1rem;
-}
- button {
-	 border-radius: 20px;
-	 border: 1px solid #004eb3;
-	 background-color: #004eb3;
-	 color: #fff;
-	 font-size: 1rem;
-	 font-weight: bold;
-	 padding: 10px 40px;
-	 letter-spacing: 1px;
-	 text-transform: uppercase;
-	 cursor: pointer;
-	 transition: transform 0.1s ease-in;
-}
- button:active {
-	 transform: scale(0.9);
-}
- button:focus {
-	 outline: none;
-}
- button.invert {
-	 background-color: transparent;
-	 border-color: #fff;
-}
- form {
-	 position: absolute;
-	 top: 0;
-	 display: flex;
-	 align-items: center;
-	 justify-content: space-around;
-	 flex-direction: column;
-	 padding: 90px 60px;
-	 width: calc(50% - 120px);
-	 height: calc(100% - 180px);
-	 text-align: center;
-	 background: linear-gradient(to bottom, #c2c2c2, #c2c2c2);
-	 transition: all 0.5s ease-in-out;
-}
- form div {
-	 font-size: 1rem;
-}
- form input {
-	 background-color: #eee;
-	 border: none;
-	 padding: 8px 15px;
-	 margin: 6px 0;
-	 width: calc(100% - 30px);
-	 border-radius: 15px;
-	 border-bottom: 1px solid #ddd;
-	 overflow: hidden;
-}
- form input:focus {
-	 outline: none;
-	 background-color: #fff;
-}
- .sign-in {
-	 left: 0;
-	 z-index: 2;
-}
- .sign-up {
-	 left: 0;
-	 z-index: 1;
-	 opacity: 0;
-}
- .sign-up-active .sign-in {
-	 transform: translateX(100%);
-}
- .sign-up-active .sign-up {
-	 transform: translateX(100%);
-	 opacity: 1;
-	 z-index: 5;
-	 animation: show 0.5s;
-}
- .sign-up-active .overlay-container {
-	 transform: translateX(-100%);
-}
- .sign-up-active .overlay {
-	 transform: translateX(50%);
-}
- .sign-up-active .overlay-left {
-	 transform: translateX(0);
-}
- .sign-up-active .overlay-right {
-	 transform: translateX(20%);
-}
- @keyframes show {
-	 0% {
-		 opacity: 0;
-		 z-index: 1;
-	}
-	 49% {
-		 opacity: 0;
-		 z-index: 1;
-	}
-	 50% {
-		 opacity: 1;
-		 z-index: 10;
-	}
-}
- 
 </style>
