@@ -77,7 +77,7 @@
                       <v-card-text class="mt-12">
                         <h1 class="text-center display-2 blue--text text--darken-3">Sign Up</h1>
                         <h4 class="text-center mlt-4">Create an account</h4>
-                        <v-form>
+                        <v-form ref="SignUpForm">
                           <v-text-field
                             label="Username"
                             name="Username"
@@ -112,6 +112,7 @@
                             id="password"
                             label="Confirm Password"
                             name="Email"
+                            :rules="[passwordConfirmationRule]"
                             prepend-icon="mdi-correct"
                             type="password"
                             color="blue darken-3"
@@ -177,14 +178,20 @@ export default {
   props: {
     source: String
   },
+  computed: {
+    passwordConfirmationRule() {
+      return () => (this.newUser.password === this.newUser.cfpassword) || 'Password must match'
+    },
+  },
   methods: {
     signUp: function(){
+      this.$refs.SignUpForm.validate()
       if(this.newUser.password != this.newUser.cfpassword){
         alert("Re-type")
       }
       else{
-        this.addUser();
-        this.step= 1
+        // this.addUser();
+        // this.step = 1
       }
     },
     addUser(){
@@ -199,12 +206,6 @@ export default {
           alert(response.data.message)
         }
       })
-      this.newUser= {
-        name: '',
-        email: '',
-        password: '',
-        cfpassword: ''
-      };
     },
     toFormData(obj){
       var fd = new FormData();
