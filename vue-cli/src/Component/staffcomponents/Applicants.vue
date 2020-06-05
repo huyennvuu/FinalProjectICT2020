@@ -92,7 +92,7 @@ export default {
       filePath: '',
       applicants: [{id: 1, name: 'Do Ngoc', gender: 'Female',department: 'ICT', score: 7.0, status: 'Pending'},
                   {id: 2, name: 'Vu Huyen', gender: 'Female',department: 'ICT', score: 8.0,  status: 'Pending'},
-                  {id: 4, name: 'Le Na', gender:'Female',department: 'BP', score: 9.0,  status: 'Pending'}]
+                  {id: 3, name: 'Le Na', gender:'Female',department: 'BP', score: 9.0,  status: 'Pending'}]
     };
   },
   methods: {

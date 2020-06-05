@@ -81,16 +81,20 @@
                           <v-text-field
                             label="Username"
                             name="Username"
+                            :rules="[rules.required]"
                             prepend-icon="mdi-account"
                             type="text"
                             color="blue darken-3"
+                            v-model="newUser.name"
                           />
                           <v-text-field
                             label="Email"
                             name="Email"
+                            :rules="[rules.required]"
                             prepend-icon="mdi-email"
                             type="text"
                             color="blue darken-3"
+                            v-model="newUser.email"
                           />
                           <v-text-field
                             id="password"
@@ -103,6 +107,7 @@
                             color="blue darken-3"
                             hint="At least 8 character"
                             @click:append="show1 =!show1"
+                            v-model="newUser.password"
                           />
                           <v-text-field
                             id="password"
@@ -111,6 +116,7 @@
                             prepend-icon="mdi-correct"
                             type="password"
                             color="blue darken-3"
+                            v-model="newUser.cfpassword"
                           />
                           <div class="text-center mt-3">
                             <v-checkbox color="blue darken-3">
@@ -133,7 +139,7 @@
                         </v-form>
                       </v-card-text>
                       <div class="text-center mt-3">
-                        <v-btn rounded color="blue darken-3" dark>SIGN UP</v-btn>
+                        <v-btn rounded color="blue darken-3" dark @click="signUp()">SIGN UP</v-btn>
                       </div>
                     </v-col>
                   </v-row>
@@ -147,6 +153,7 @@
   </v-app>
 </template>>
 <script>
+import axios from 'axios';
 export default {
   data: () => {
     return {
@@ -154,14 +161,52 @@ export default {
       dialogForget: false,
       show: false,
       show1: false,
+      errorMsg: '',
       rules: {
         required: value => !!value || "Required!",
         min: v => v.length >= 8 || "Min 8 characters"
-      }
+      }, 
+      newUser: {
+        name: '',
+        email: '',
+        password: '',
+        cfpassword: ''
+      },
+      users: []
     };
   },
   props: {
     source: String
+  },
+  methods: {
+    signUp: function(){
+      if(this.newUser.password != this.newUser.cfpassword){
+        alert("Re-type")
+      }
+      else{
+        console.log("matched")
+        this.addUser();
+      }
+    },
+    addUser(){
+      var formData = this.toFormData(this.newUser);
+      axios.post("http://localhost:8080/php/process.php?action=create", formData).then(function(response){
+        this.newUser = {name: '', email: '',password: '', cfpassword: ''};
+        if(response.data.error){
+          this.errorMsg = response.data.message;
+        }
+        else{
+          alert("registed!")
+        }
+      })
+    },
+    toFormData(obj){
+      var fd = new FormData();
+      for(var i in obj){
+        fd.append(i,obj[i])
+      }
+      return fd
+    }
   }
 };
 </script>

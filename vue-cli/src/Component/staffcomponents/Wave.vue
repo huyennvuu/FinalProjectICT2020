@@ -28,7 +28,7 @@
                     height: 10vh;"
     >
       <input type="text" placeholder="New Wave Name" v-model="newWave" />
-      <v-btn @click="addWave(newWave)" fab color="primary">
+      <v-btn @click="addWave()" fab color="primary">
         <v-icon>mdi-plus</v-icon></v-btn>
     </div>
   </v-container>
@@ -39,7 +39,7 @@ export default {
     return {
       waveID: [1, 2, 3],
       count: 3,
-      newWave: undefined
+      
     };
   },
   methods: {
@@ -48,16 +48,9 @@ export default {
         if (this.waveID[i] == index) this.waveID.splice(i, 1);
       }
     },
-    addWave: function(wavename) {
-    var existed = false
-      for (var i = 0; i < this.waveID.length; i++) {
-        if (this.waveID[i] == wavename)  {
-            alert("Existed wave");
-            existed = true;
-        }
-      }
-      if(!existed)
-        this.waveID.push(wavename)
+    addWave: function() {
+      var newWave = this.waveID.length;
+      console.log(this.newWave)
     }
   }
 };
