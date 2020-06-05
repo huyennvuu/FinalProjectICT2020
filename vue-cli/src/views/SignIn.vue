@@ -70,7 +70,7 @@
                         <h5 class="text-center">Enter your information</h5>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn rounded outlined @click="step--" dark>Already have an account?</v-btn>
+                        <v-btn rounded outlined @click="step--" dark>Have an account?</v-btn>
                       </div>
                     </v-col>
                     <v-col cols="12" md="8">
@@ -151,7 +151,7 @@
       </v-container>
     </v-content>
   </v-app>
-</template>>
+</template>
 <script>
 import axios from 'axios';
 export default {
@@ -162,17 +162,16 @@ export default {
       show: false,
       show1: false,
       errorMsg: '',
+      rules: {
+        required: value => !!value || "Required!",
+        min: v => v.length >= 8 || "Min 8 characters",
+      }, 
       newUser: {
         name: '',
         email: '',
         password: '',
         cfpassword: ''
       },
-      rules: {
-        required: value => !!value || "Required!",
-        min: v => v.length >= 8 || "Min 8 characters",
-      }, 
-      
     };
   },
   props: {

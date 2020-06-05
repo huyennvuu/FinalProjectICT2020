@@ -6,7 +6,7 @@ import Staff from '../views/Staff.vue';
 Vue.use(VueRouter);
 
 const routes = [
-    {path: '/login', name: 'homepage', component: SignIn},
+    {path: '/', name: 'homepage', component: SignIn},
     {path: '/staff', name: 'staffpage', component: Staff},
 ]
 const router = new VueRouter({
