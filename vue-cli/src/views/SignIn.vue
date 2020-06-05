@@ -102,7 +102,6 @@
                             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :rules="[rules.required, rules.min]"
                             :type="show1 ? 'text' : 'password'"
-                            name="Email"
                             prepend-icon="mdi-lock"
                             color="blue darken-3"
                             hint="At least 8 character"
@@ -162,17 +161,17 @@ export default {
       show: false,
       show1: false,
       errorMsg: '',
-      rules: {
-        required: value => !!value || "Required!",
-        min: v => v.length >= 8 || "Min 8 characters"
-      }, 
       newUser: {
         name: '',
         email: '',
         password: '',
         cfpassword: ''
       },
-      users: []
+      rules: {
+        required: value => !!value || "Required!",
+        min: v => v.length >= 8 || "Min 8 characters",
+      }, 
+      
     };
   },
   props: {
@@ -184,27 +183,34 @@ export default {
         alert("Re-type")
       }
       else{
-        console.log("matched")
         this.addUser();
+        this.step= 1
       }
     },
     addUser(){
       var formData = this.toFormData(this.newUser);
-      axios.post("http://localhost:8080/php/process.php?action=create", formData).then(function(response){
-        this.newUser = {name: '', email: '',password: '', cfpassword: ''};
+      console.log(formData.getAll('name'))
+      axios.post("http://192.168.64.2/php/process.php?action=create", formData).then(function(response){
+      console.log(response)
         if(response.data.error){
-          this.errorMsg = response.data.message;
+          console.log(response.data.message)
         }
         else{
-          alert("registed!")
+          alert(response.data.message)
         }
       })
+      this.newUser= {
+        name: '',
+        email: '',
+        password: '',
+        cfpassword: ''
+      };
     },
     toFormData(obj){
       var fd = new FormData();
-      for(var i in obj){
-        fd.append(i,obj[i])
-      }
+      fd.append('name',obj['name'])
+      fd.append('email',obj['email'])
+      fd.append('password',obj['password'])
       return fd
     }
   }
