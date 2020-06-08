@@ -27,7 +27,6 @@
                     align-items: center;
                     height: 10vh;"
     >
-      <input type="text" placeholder="New Wave Name" v-model="newWave" />
       <v-btn @click="addWave()" fab color="primary">
         <v-icon>mdi-plus</v-icon></v-btn>
     </div>
@@ -49,8 +48,8 @@ export default {
       }
     },
     addWave: function() {
-      var newWave = this.waveID.length;
-      console.log(this.newWave)
+      var newWave = this.waveID[this.waveID.length-1];
+      this.waveID.push(newWave+1)
     }
   }
 };

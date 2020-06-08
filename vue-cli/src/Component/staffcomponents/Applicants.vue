@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid style="margin: 0px; padding: 0px; width: 100%; height: 80vh">
+  <v-container flat fluid style="margin: 0px; padding: 0px; width: 100%; height: 80vh">
     <v-dialog v-model="dialog2" max-width="500px">
       <v-card>
         <v-card-title>Filter</v-card-title>
@@ -31,9 +31,9 @@
         <v-list shaped>
           <v-list-item-group>
             <v-list-item
-              v-for="applicant in applicants"
-              :key="applicant.id"
-              @click="selectApplicant(applicant.id)"
+              v-for="(applicant,index) in applicants"
+              :key="index"
+              @click="selectApplicant(index)"
               v-slot:default="{ active, toggle }"
             >
               <template :color="active ? undefined : 'grey darken-3'" @click="toggle;">
@@ -41,13 +41,13 @@
                   <v-checkbox></v-checkbox>
                 </div>
                 <v-list-item-content>
-                  <v-list-item-title>Applicant Name: {{applicant.name}}</v-list-item-title>
+                  <v-list-item-title>{{applicant.full_name}}</v-list-item-title>
                   <v-list-item-subtitle>
                     Gender: {{applicant.gender}}
                     <v-divider vertical></v-divider>
-                    Department: {{applicant.department}}
+                    Department: {{applicant.name}}
                     <v-divider vertical></v-divider>
-                    Score: {{applicant.score}}
+                    Score: {{applicant.gpa_mark_10}}
                   </v-list-item-subtitle>
                   <v-divider vertical></v-divider>
                 </v-list-item-content>
@@ -64,24 +64,20 @@
 
     <v-col>
       <div class="applicant-view">
-        <p>This is the file {{filePath}}</p>
         <iframe :src=filePath style="width:100%; height:100%"></iframe>
+        <!-- <embed :src=filePath type=”application/pdf” width=”100%” height=”100%”> -->
+        <!-- <object data=filePath  type=”application/pdf” width=”100%” height=”100%” /> -->
       </div>
-      <v-card flat>
-        <v-card-text>
-          <v-row>
-            <div class="my-2" left>
-              <v-btn small flat color="success" dark>Approve</v-btn>
-              <v-btn small flat color="error" dark>Reject</v-btn>
-              <v-btn small flat color="warning" dark>Pending</v-btn>
-            </div>
-          </v-row>
-        </v-card-text>
-      </v-card>
+      <v-container >
+              <v-btn small  color="success" dark>Approve</v-btn>
+              <v-btn small  color="error" dark>Reject</v-btn>
+              <v-btn small  color="warning" dark>Pending</v-btn>
+      </v-container>
     </v-col>
   </v-container>
 </template>
 <script>
+import axios from "axios";
 export default {
   data: function() {
     return {
@@ -90,14 +86,24 @@ export default {
       switch1: false,
       mark: 5.5,
       filePath: '',
-      applicants: [{id: 1, name: 'Do Ngoc', gender: 'Female',department: 'ICT', score: 7.0, status: 'Pending'},
-                  {id: 2, name: 'Vu Huyen', gender: 'Female',department: 'ICT', score: 8.0,  status: 'Pending'},
-                  {id: 3, name: 'Le Na', gender:'Female',department: 'BP', score: 9.0,  status: 'Pending'}]
-    };
+      applicants: [],
+      };
+  },
+  created: function() {
+    axios
+      .get("http://192.168.64.2/php/process.php?action=initialLoad")
+      .then(response => {
+        if (response.data.error) {
+          alert(response.data.message);
+        } else {
+          this.applicants = response.data.user;
+        }
+      });
   },
   methods: {
     selectApplicant: function(id) {
-      this.filePath = './file-test/test'+id+'.pdf';
+      var count = id+1
+      this.filePath = './file-test/test'+count+'.pdf';
       console.log(this.filePath)
     } 
   }
