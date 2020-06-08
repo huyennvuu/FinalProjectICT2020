@@ -21,25 +21,27 @@
                       <v-card-text class="mt-12">
                         <h1 class="text-center display-2 blue--text text--darken-3">Sign In</h1>
                         <h4 class="text-center mlt-4">Ensure your email for registration</h4>
-                        <v-form>
+                        <v-form ref="SignInForm" lazy-validation>
                           <v-text-field
                             label="Email"
                             name="Email"
+                            :rules="[rules.required, rules.email]"
                             prepend-icon="mdi-email"
                             type="text"
                             color="blue darken-3"
+                            v-model="currUser.email"
                           />
                           <v-text-field
                             id="password"
                             label="Password"
-                            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :rules="[rules.required, rules.min]"
-                            :type="show ? 'text' : 'password'"
-                            name="Email"
+                            :type="show1 ? 'text' : 'password'"
                             prepend-icon="mdi-lock"
                             color="blue darken-3"
                             hint="At least 8 character"
-                            @click:append="show =!show"
+                            @click:append="show1 =!show1"
+                            v-model="currUser.password"
                           />
                         </v-form>
                         <h3
@@ -48,7 +50,7 @@
                         >Forget your password ?</h3>
                       </v-card-text>
                       <div class="text-center mt-3">
-                        <v-btn rounded color="blue darken-3" dark>SIGN IN</v-btn>
+                        <v-btn rounded color="blue darken-3" dark @click="signIn()">SIGN IN</v-btn>
                       </div>
                     </v-col>
                     <v-col cols="12" md="4" class="blue darken-3">
@@ -77,7 +79,7 @@
                       <v-card-text class="mt-12">
                         <h1 class="text-center display-2 blue--text text--darken-3">Sign Up</h1>
                         <h4 class="text-center mlt-4">Create an account</h4>
-                        <v-form ref="SignUpForm">
+                        <v-form ref="SignUpForm" lazy-validation>
                           <v-text-field
                             label="Username"
                             name="Username"
@@ -90,7 +92,7 @@
                           <v-text-field
                             label="Email"
                             name="Email"
-                            :rules="[rules.required]"
+                            :rules="[rules.required, rules.email]"
                             prepend-icon="mdi-email"
                             type="text"
                             color="blue darken-3"
@@ -111,7 +113,6 @@
                           <v-text-field
                             id="password"
                             label="Confirm Password"
-                            name="Email"
                             :rules="[passwordConfirmationRule]"
                             prepend-icon="mdi-correct"
                             type="password"
@@ -119,28 +120,10 @@
                             v-model="newUser.cfpassword"
                           />
                           <div class="text-center mt-3">
-                            <v-checkbox color="blue darken-3">
-                              <template v-slot:label>
-                                <div @click.stop>
-                                  Do you accept the
-                                  <a
-                                    href="javascript:;"
-                                    @click.stop="terms = true"
-                                  >terms</a>
-                                  and
-                                  <a
-                                    href="javascript:;"
-                                    @click.stop="conditions = true"
-                                  >conditions?</a>
-                                </div>
-                              </template>
-                            </v-checkbox>
+                            <v-btn rounded color="blue darken-3" dark @click="signUp()">SIGN UP</v-btn>
                           </div>
                         </v-form>
                       </v-card-text>
-                      <div class="text-center mt-3">
-                        <v-btn rounded color="blue darken-3" dark @click="signUp()">SIGN UP</v-btn>
-                      </div>
                     </v-col>
                   </v-row>
                 </v-window-item>
@@ -153,25 +136,32 @@
   </v-app>
 </template>
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
   data: () => {
     return {
+      name: "",
       step: 1,
       dialogForget: false,
       show: false,
       show1: false,
-      errorMsg: '',
+      errorMsg: "",
       rules: {
         required: value => !!value || "Required!",
         min: v => v.length >= 8 || "Min 8 characters",
-      }, 
-      newUser: {
-        name: '',
-        email: '',
-        password: '',
-        cfpassword: ''
+        email: v => /.+@.+\..+/.test(v) || "E-mail must be valid"
       },
+      newUser: {
+        name: "",
+        email: "",
+        password: "",
+        cfpassword: "",
+        account_type: "guest"
+      },
+      currUser: {
+        email: "",
+        password: ""
+      }
     };
   },
   props: {
@@ -179,39 +169,85 @@ export default {
   },
   computed: {
     passwordConfirmationRule() {
-      return () => (this.newUser.password === this.newUser.cfpassword) || 'Password must match'
-    },
+      return () =>
+        this.newUser.password === this.newUser.cfpassword ||
+        "Password must match";
+    }
   },
   methods: {
-    signUp: function(){
-      this.$refs.SignUpForm.validate()
-      if(this.newUser.password != this.newUser.cfpassword){
-        alert("Re-type")
-      }
-      else{
-        // this.addUser();
-        // this.step = 1
+    SUvalidate() {
+      this.$refs.SignUpForm.validate();
+    },
+    SUreset() {
+      this.$refs.SignUpForm.reset();
+    },
+    SUresetValidation() {
+      this.$refs.SignUpForm.resetValidation();
+    },
+    signUp: function() {
+      this.SUvalidate();
+      if (!this.$refs.SignUpForm.validate()) {
+        Alert("Invalid Form");
+      } else {
+        this.addUser();
       }
     },
-    addUser(){
-      var formData = this.toFormData(this.newUser);
-      console.log(formData.getAll('name'))
-      axios.post("http://192.168.64.2/php/process.php?action=create", formData).then(function(response){
-      console.log(response)
-        if(response.data.error){
-          console.log(response.data.message)
-        }
-        else{
-          alert(response.data.message)
-        }
-      })
+    SIvalidate() {
+      this.$refs.SignInForm.validate();
     },
-    toFormData(obj){
+    SIreset() {
+      this.$refs.SignInForm.reset();
+    },
+    SIresetValidation() {
+      this.$refs.SignInForm.resetValidation();
+    },
+    signIn: function() {
+      this.SIvalidate();
+      if (!this.$refs.SignInForm.validate()) {
+        console.log("Invalid Form");
+      } else {
+        this.loginUser();
+      }
+    },
+    addUser() {
+      var formData = this.toFormData(this.newUser, "sign_up");
+      axios
+        .post("http://192.168.64.2/php/process.php?action=create", formData)
+        .then(function(response) {
+          if (response.data.error) {
+            alert(response.data.message);
+          } else {
+            alert(response.data.message);
+          }
+        });
+      this.step = 1;
+      this.SUreset();
+    },
+    loginUser() {
+      var formData = this.toFormData(this.currUser, "sign_in");
+      axios
+        .post("http://192.168.64.2/php/process.php?action=login", formData)
+        .then(function(response) {
+          alert(response.data.message);
+          // if (response.data.error) {
+          //   console.log(response.data.message);
+          // } else {
+          //   alert(response.data.message);
+          // }
+        });
+    },
+    toFormData(obj, type) {
       var fd = new FormData();
-      fd.append('name',obj['name'])
-      fd.append('email',obj['email'])
-      fd.append('password',obj['password'])
-      return fd
+      if (type == "sign_up") {
+        fd.append("name", obj["name"]);
+        fd.append("email", obj["email"]);
+        fd.append("password", obj["password"]);
+        fd.append("type", obj["account_type"]);
+      } else if (type == "sign_in") {
+        fd.append("email", obj["email"]);
+        fd.append("password", obj["password"]);
+      }
+      return fd;
     }
   }
 };

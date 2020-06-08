@@ -1,6 +1,6 @@
 <?php
     header('Access-Control-Allow-Origin: http://localhost:5000');
-    $conn = new mysqli("localhost","root","","user_account");
+    $conn = new mysqli("http://192.168.64.2","root","","user_account");
     if($conn->connect_error){
         die("Connection Failed".$conn->connect_error);
 
@@ -21,12 +21,12 @@
     }
 
     if($action == 'create'){
-        $name=$_POST['name'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
+        $name=$_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
         $md5pass = md5($password);
         $shapass = sha1($md5pass);
-        $crypt = crypt($shapass,ng);
+        $crypt = crypt($shapass);
         $sql = $conn->query("INSERT INTO users (name, email ,password)
                             VALUES('$name','$email','$crypt')");
         if($sql){
@@ -64,5 +64,19 @@
             $result['message']= "User deleted failed";
         }
     } 
+    if( $action == 'login'){
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $md5pass = md5($password);
+        $shapass = sha1($md5pass);
+        $crypt = crypt($shapass,ng);
+        $result['message'] = $email + ' ' + $crypt; 
+        // $sql = $conn->query("SELECT * FROM users WHERE email ='$email' ");
+        // $user = array();
+        // while($row = $sql->fetch_assoc()){
+        //     array_push($user, $row);
+        // }
+        // $result['user'] = $user; 
+    }
     echo json_encode($result)
 ?>
