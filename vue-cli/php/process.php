@@ -1,6 +1,6 @@
 <?php
     header('Access-Control-Allow-Origin: http://localhost:5000');
-    $conn = new mysqli("http://192.168.64.2","root","","user_account");
+    $conn = new mysqli("localhost","root","","usthoms");
     if($conn->connect_error){
         die("Connection Failed".$conn->connect_error);
 
@@ -12,7 +12,7 @@
     }
 
     if($action == 'read'){
-        $sql = $conn->query("SELECT * FROM users");
+        $sql = $conn->query("SELECT * FROM User");
         $user = array();
         while($row = $sql->fetch_assoc()){
             array_push($user, $row);
@@ -23,14 +23,15 @@
     if($action == 'create'){
         $name=$_POST['name'];
         $email = $_POST['email'];
-        $password = $_POST['password'];
+        $password = $_POST['password'] ;
+        $type = $_POST['type'] ;
         $md5pass = md5($password);
         $shapass = sha1($md5pass);
-        $crypt = crypt($shapass);
-        $sql = $conn->query("INSERT INTO users (name, email ,password)
-                            VALUES('$name','$email','$crypt')");
+        $crypt = crypt($shapass, 'ng');
+        $sql = $conn->query("INSERT INTO User (user_name, email ,password,type)
+                            VALUES('$name','$email','$crypt','$type')");
         if($sql){
-            $result['message']= "Please login with your newly created account with the email '$email'";
+            $result['message']= "Please login with your newly created account with the email $email";
         }
         else {
             $result['error'] = true;
@@ -40,10 +41,10 @@
 
     if($action == 'update'){
         $id=$_POST['id'] ?? '';
-        $name=$_POST['name'] ?? '';
+        $name=$_POST['user_name'] ?? '';
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
-        $sql = $conn->query("UPDATE users SET name='$name',email='$email',password='$password' WHERE id='$id'");
+        $sql = $conn->query("UPDATE User SET name='$name',email='$email',password='$password' WHERE id='$id'");
         if($sql){
             $result['message']= "User updated succesfully";
         }
@@ -69,14 +70,15 @@
         $password = $_POST['password'] ?? '';
         $md5pass = md5($password);
         $shapass = sha1($md5pass);
-        $crypt = crypt($shapass,ng);
-        $result['message'] = $email + ' ' + $crypt; 
-        // $sql = $conn->query("SELECT * FROM users WHERE email ='$email' ");
-        // $user = array();
-        // while($row = $sql->fetch_assoc()){
-        //     array_push($user, $row);
-        // }
-        // $result['user'] = $user; 
+        $crypt = crypt($shapass, 'ng');
+        $sql = "SELECT * FROM User WHERE email ='$email' and password = '$crypt' ";
+        $query = mysqli_query($conn,$sql);
+		$num_rows = mysqli_num_rows($query);
+        if ($num_rows==0) {
+            $result['message']= "no existed";
+        }else{
+            $result['message']= "found it";
+            } 
     }
     echo json_encode($result)
 ?>

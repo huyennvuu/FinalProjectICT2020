@@ -156,7 +156,7 @@ export default {
         email: "",
         password: "",
         cfpassword: "",
-        account_type: "guest"
+        account_type: "student"
       },
       currUser: {
         email: "",
@@ -187,7 +187,7 @@ export default {
     signUp: function() {
       this.SUvalidate();
       if (!this.$refs.SignUpForm.validate()) {
-        Alert("Invalid Form");
+        alert("Invalid Form");
       } else {
         this.addUser();
       }
@@ -211,9 +211,8 @@ export default {
     },
     addUser() {
       var formData = this.toFormData(this.newUser, "sign_up");
-      axios
-        .post("http://192.168.64.2/php/process.php?action=create", formData)
-        .then(function(response) {
+      axios.post("http://192.168.64.2/php/process.php?action=create", formData)
+          .then(function(response) {
           if (response.data.error) {
             alert(response.data.message);
           } else {
