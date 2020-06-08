@@ -34,13 +34,13 @@
                           <v-text-field
                             id="password"
                             label="Password"
-                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                             :rules="[rules.required, rules.min]"
-                            :type="show1 ? 'text' : 'password'"
+                            :type="show ? 'text' : 'password'"
                             prepend-icon="mdi-lock"
                             color="blue darken-3"
                             hint="At least 8 character"
-                            @click:append="show1 =!show1"
+                            @click:append="show =! show"
                             v-model="currUser.password"
                           />
                         </v-form>
@@ -211,8 +211,9 @@ export default {
     },
     addUser() {
       var formData = this.toFormData(this.newUser, "sign_up");
-      axios.post("http://192.168.64.2/php/process.php?action=create", formData)
-          .then(function(response) {
+      axios
+        .post("http://192.168.64.2/php/process.php?action=create", formData)
+        .then(function(response) {
           if (response.data.error) {
             alert(response.data.message);
           } else {
@@ -227,12 +228,11 @@ export default {
       axios
         .post("http://192.168.64.2/php/process.php?action=login", formData)
         .then(function(response) {
-          alert(response.data.message);
-          // if (response.data.error) {
-          //   console.log(response.data.message);
-          // } else {
-          //   alert(response.data.message);
-          // }
+          if (response.data.error) {
+            alert(response.data.message);
+          } else {
+            window.location = "/"+response.data.account_type.type
+          }
         });
     },
     toFormData(obj, type) {

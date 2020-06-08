@@ -39,7 +39,7 @@ CREATE TABLE `usthoms`.`Address` (
 	);
 
 /*Training Program*/
-CREATE TABLE `usthoms`.`Training Program` (
+CREATE TABLE `usthoms`.`Training_Program` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(100) NOT NULL,
 	
@@ -47,7 +47,7 @@ CREATE TABLE `usthoms`.`Training Program` (
 	);
 
 /*Appliction Infor*/
-CREATE TABLE `usthoms`.`Application Information` (
+CREATE TABLE `usthoms`.`Application_Information` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`usth_applied` INT(1) NOT NULL,
 	`USTH_applied_year` VARCHAR(10),
@@ -66,19 +66,19 @@ CREATE TABLE `usthoms`.`Application Information` (
 	`motivation_letter` VARCHAR(255) NOT NULL,
 	
 	`first_training_program_id` INT(10) NOT NULL,
-	FOREIGN KEY (`first_training_program_id`) REFERENCES `usthoms`.`Training Program` (`id`)
+	FOREIGN KEY (`first_training_program_id`) REFERENCES `usthoms`.`Training_Program` (`id`)
     ON UPDATE CASCADE
     ON DELETE NO ACTION,
 	`second_training_program_id` INT(10) NOT NULL,
-	FOREIGN KEY (`second_training_program_id`) REFERENCES `usthoms`.`Training Program` (`id`)
+	FOREIGN KEY (`second_training_program_id`) REFERENCES `usthoms`.`Training_Program` (`id`)
     ON UPDATE CASCADE
     ON DELETE NO ACTION,
 	`third_training_program_id` INT(10) NOT NULL,
-	FOREIGN KEY (`third_training_program_id`) REFERENCES `usthoms`.`Training Program` (`id`)
+	FOREIGN KEY (`third_training_program_id`) REFERENCES `usthoms`.`Training_Program` (`id`)
     ON UPDATE CASCADE
     ON DELETE NO ACTION,
 	`fourth_training_program_id` INT(10) NOT NULL,
-	FOREIGN KEY (`fourth_training_program_id`) REFERENCES `usthoms`.`Training Program` (`id`)
+	FOREIGN KEY (`fourth_training_program_id`) REFERENCES `usthoms`.`Training_Program` (`id`)
     ON UPDATE CASCADE
     ON DELETE NO ACTION,
 
@@ -86,7 +86,7 @@ CREATE TABLE `usthoms`.`Application Information` (
 	);
 
 /*Acdemic History*/
-CREATE TABLE `usthoms`.`Academic History` (
+CREATE TABLE `usthoms`.`Academic_History` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`school_name` VARCHAR(45) NOT NULL,
 	`class` VARCHAR(45) NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE `usthoms`.`Jury` (
 	);
 
 /*Jury Detail*/
-CREATE TABLE `usthoms`.`Jury Detail` (
+CREATE TABLE `usthoms`.`Jury_Detail` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	
 	`jury_id` INT(10) NOT NULL,
@@ -179,11 +179,11 @@ CREATE TABLE `usthoms`.`Student` (
 	`marital_status` VARCHAR(45) NOT NULL,
 	
 	`application_id` INT(10) NOT NULL,
-	FOREIGN KEY (`application_id`) REFERENCES `usthoms`.`Application Information` (`id`)
+	FOREIGN KEY (`application_id`) REFERENCES `usthoms`.`Application_Information` (`id`)
     ON UPDATE CASCADE
     ON DELETE NO ACTION,
 	`academic_id` INT(10) NOT NULL,
-	FOREIGN KEY (`academic_id`) REFERENCES `usthoms`.`Academic History` (`id`)
+	FOREIGN KEY (`academic_id`) REFERENCES `usthoms`.`Academic_History` (`id`)
     ON UPDATE CASCADE
     ON DELETE NO ACTION,
  	`address_id` INT(10) NOT NULL,
@@ -207,7 +207,7 @@ CREATE TABLE `usthoms`.`Student` (
 	);
   
 /*Genral Evaluation*/
-CREATE TABLE `usthoms`.`General Evaluation` (
+CREATE TABLE `usthoms`.`General_Evaluation` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`datetime` DATE NOT NULL,
 	`academic_transcripts` INT(30) NOT NULL,
@@ -232,7 +232,7 @@ CREATE TABLE `usthoms`.`General Evaluation` (
 	);
 
 /*English Evaluation*/
-CREATE TABLE `usthoms`.`English Evaluation` (
+CREATE TABLE `usthoms`.`English_Evaluation` (
 	`id` INT(10) NOT NULL AUTO_INCREMENT,
 	`datetime` DATE NOT NULL,
 	`result` VARCHAR(30) NOT NULL,

@@ -38,6 +38,7 @@ import Applicants from "../Component/staffcomponents/Applicants.vue";
 import Wave from "../Component/staffcomponents/Wave.vue";
 import InterviewJury from "../Component/staffcomponents/InterviewJury.vue";
 import Account from "../Component/staffcomponents/Accounts.vue";
+
 export default {
   data: function() {
     return {
