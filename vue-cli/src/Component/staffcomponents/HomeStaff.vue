@@ -1,6 +1,10 @@
 <template>
   <v-container fluid>
-    <div class="donutChart">Chart area</div>
+    <v-row>
+      <v-col cols="12" md="5"><PieChart/></v-col>
+      <v-col cols="12" md="7"> information</v-col>
+    </v-row>
+      
     <hr />
     <div class="list">
       <v-list shaped>
@@ -9,7 +13,11 @@
             <template>
               <v-list-item-content>
                 <v-list-item-title>{{i.full_name}}</v-list-item-title>
-                <v-list-item-subtitle>1<sup>st</sup> Program: {{i.name}} | Score: {{i.gpa_mark_10}} | Gender: {{i.gender}}</v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  1
+                  <sup>st</sup>
+                  Program: {{i.name}} | Score: {{i.gpa_mark_10}} | Gender: {{i.gender}}
+                </v-list-item-subtitle>
               </v-list-item-content>
               <div>
                 <v-list-item-title>Status:</v-list-item-title>
@@ -24,19 +32,15 @@
 </template>
 <script>
 import axios from "axios";
+import PieChart from "./PieChart.vue";
 export default {
+  components: {
+    PieChart,
+  },
   data: () => {
     return {
       userData: [],
-      datasets: [
-        {
-          data: [10, 20, 30]
-        }
-      ],
-
-      // These labels appear in the legend and in the tooltips when hovering different arcs
-      labels: ["Red", "Yellow", "Blue"]
-    };
+      }
   },
   created: function() {
     axios
@@ -55,7 +59,7 @@ export default {
 
 <style scoped>
 .donutChart {
-  height: 40vh;
+  height: 30vh;
   width: auto;
   background-color: rgb(255, 255, 255);
 }
