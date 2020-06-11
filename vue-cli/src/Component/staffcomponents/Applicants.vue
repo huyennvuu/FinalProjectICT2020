@@ -11,7 +11,7 @@
             <v-text-field type="number" label="Average Score" max=10 step=0.1></v-text-field>
           </v-form>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class ="align-center justify-center">
           <v-btn color="primary" class="text-center" text @click="dialog2 = false">Apply Filter</v-btn>
         </v-card-actions>
       </v-card>
@@ -65,8 +65,6 @@
     <v-col>
       <div class="applicant-view">
         <iframe :src=filePath style="width:100%; height:100%"></iframe>
-        <!-- <embed :src=filePath type=”application/pdf” width=”100%” height=”100%”> -->
-        <!-- <object data=filePath  type=”application/pdf” width=”100%” height=”100%” /> -->
       </div>
       <v-container >
               <v-btn small  color="success" dark @click="changeStatus(selectedApplicant,'Approved')" >Approve</v-btn>
@@ -111,8 +109,6 @@ export default {
       this.filePath = './file-test/test'+count+'.pdf';
     },
     changeStatus: function(id,stt){
-      console.log(id)
-      this.applicants[id].form_status = stt
       var sent_data = new FormData()
       sent_data.append("id",this.applicants[id].id)
       sent_data.append("form_status",stt)
@@ -124,6 +120,8 @@ export default {
           } else {
             console.log(response.data.message)
           }
+        }).finally(()=>{
+          this.getAllApplicant()
         });
     }
   }

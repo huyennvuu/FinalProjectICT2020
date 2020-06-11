@@ -59,7 +59,7 @@
                         <h5 class="text-center">Enter your information</h5>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn rounded outlined @click="step++" dark>Need an account?</v-btn>
+                        <v-btn rounded outlined @click="step++; SIreset()" dark>Need an account?</v-btn>
                       </div>
                     </v-col>
                   </v-row>
@@ -72,7 +72,7 @@
                         <h5 class="text-center">Enter your information</h5>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn rounded outlined @click="step--" dark>Have an account?</v-btn>
+                        <v-btn rounded outlined @click="step--; SUreset()" dark>Have an account?</v-btn>
                       </div>
                     </v-col>
                     <v-col cols="12" md="8">
@@ -155,8 +155,7 @@ export default {
         name: "",
         email: "",
         password: "",
-        cfpassword: "",
-        account_type: "student"
+        cfpassword: ""
       },
       currUser: {
         email: "",
@@ -181,9 +180,10 @@ export default {
     SUreset() {
       this.$refs.SignUpForm.reset();
     },
-    SUresetValidation() {
-      this.$refs.SignUpForm.resetValidation();
-    },
+    // SUresetValidation() {
+    //   this.$refs.SignUpForm.resetValidation();
+    // },
+
     signUp: function() {
       this.SUvalidate();
       if (!this.$refs.SignUpForm.validate()) {
@@ -192,15 +192,17 @@ export default {
         this.addUser();
       }
     },
+
     SIvalidate() {
       this.$refs.SignInForm.validate();
     },
     SIreset() {
       this.$refs.SignInForm.reset();
     },
-    SIresetValidation() {
-      this.$refs.SignInForm.resetValidation();
-    },
+    // SIresetValidation() {
+    //   this.$refs.SignInForm.resetValidation();
+    // },
+
     signIn: function() {
       this.SIvalidate();
       if (!this.$refs.SignInForm.validate()) {
@@ -209,6 +211,7 @@ export default {
         this.loginUser();
       }
     },
+
     addUser() {
       var formData = this.toFormData(this.newUser, "sign_up");
       axios
@@ -219,10 +222,12 @@ export default {
           } else {
             alert(response.data.message);
           }
+        }).finally(()=>{
+          this.SUreset();
+          this.step = 1;
         });
-      this.step = 1;
-      this.SUreset();
     },
+
     loginUser() {
       var formData = this.toFormData(this.currUser, "sign_in");
       axios
@@ -233,15 +238,17 @@ export default {
           } else {
             window.location = "/"+response.data.account_type.type
           }
+        }).finally(()=>{
+          this.SIreset()
         });
     },
+
     toFormData(obj, type) {
       var fd = new FormData();
       if (type == "sign_up") {
         fd.append("name", obj["name"]);
         fd.append("email", obj["email"]);
         fd.append("password", obj["password"]);
-        fd.append("type", obj["account_type"]);
       } else if (type == "sign_in") {
         fd.append("email", obj["email"]);
         fd.append("password", obj["password"]);

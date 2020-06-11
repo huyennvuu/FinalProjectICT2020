@@ -143,6 +143,8 @@ export default {
           } else {
             console.log(response.data.message);
           }
+        }).finally(()=>{
+          this.getAllWave()
         });
     },
     addWave: function() {
@@ -159,6 +161,8 @@ export default {
           } else {
             console.log(response.data.message);
           }
+        }).finally(()=>{
+          this.getAllWave()
         });
       
     },
@@ -170,7 +174,6 @@ export default {
       this.selectedWave = wave
     },
     updateEditWave(){
-      this.formEdit = false
       var sent_data = new FormData()
       console.log(this.selectedWave.id, this.selectedWave.date_start, this.selectedWave.date_end)
       sent_data.append("id",this.selectedWave.id)
@@ -184,6 +187,9 @@ export default {
           } else {
             console.log(response.data.message)
           }
+        }).finally(()=>{
+          this.getAllWave()
+          this.formEdit = false
         });
     }
   }
