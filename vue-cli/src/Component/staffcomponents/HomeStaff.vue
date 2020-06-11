@@ -1,14 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col cols="12" md="5"><PieChart /></v-col>
-      <v-col cols="12" md="7" class= 'd-flex align-center justify-center'> 
-        <v-container>
-        <ChartTable /> 
-        </v-container>
-        </v-col>
-    </v-row>
-      
+      <ChartTable />
     <hr />
     <div class="list">
       <v-list shaped>
@@ -18,8 +10,6 @@
               <v-list-item-content>
                 <v-list-item-title>{{i.full_name}}</v-list-item-title>
                 <v-list-item-subtitle>
-                  1
-                  <sup>st</sup>
                   Program: {{i.name}} | Score: {{i.gpa_mark_10}} | Gender: {{i.gender}}
                 </v-list-item-subtitle>
               </v-list-item-content>
@@ -35,11 +25,10 @@
 </template>
 <script>
 import axios from "axios";
-import PieChart from "./PieChart.vue";
+// import PieChart from "./PieChart.vue";
 import ChartTable from "./ChartTable.vue";
 export default {
   components: {
-    PieChart,
     ChartTable,
   },
   props: ['user']
@@ -50,18 +39,11 @@ export default {
       }
   },
    mounted: function(){
-    axios
-      .get("http://192.168.64.2/php/process.php?action=initialLoad")
-      .then(response => {
-        if (response.data.error) {
-          alert(response.data.message);
-        } else {
-          this.applicants = response.data.user;
-        }
-      });
+    this.getAllApplicants()
   },
-  created: function() {
-    axios
+  methods: {
+    getAllApplicants: function(){
+      axios
       .get("http://192.168.64.2/php/process.php?action=initialLoad")
       .then(response => {
         if (response.data.error) {
@@ -70,8 +52,8 @@ export default {
           this.userData = response.data.user;
         }
       });
-  },
-  methods: {}
+    }
+  }
 };
 </script>
 

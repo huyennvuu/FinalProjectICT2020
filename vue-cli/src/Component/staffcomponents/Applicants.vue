@@ -1,5 +1,6 @@
 <template>
   <v-container flat fluid style="margin: 0px; padding: 0px; width: 100%; height: 80vh">
+    <!-- Filter Dialog -->
     <v-dialog v-model="dialog2" max-width="500px">
       <v-card>
         <v-card-title>Filter</v-card-title>
@@ -8,31 +9,40 @@
             <v-select :items="wave" label="Wave"></v-select>
             <v-select :items="department" label="Department"></v-select>
             <v-switch v-model="switch1" :label="`Award and Distinctions`"></v-switch>
-            <v-text-field type="number" label="Average Score" max=10 step=0.1></v-text-field>
+            <v-text-field type="number" label="Average Score" max="10" step="0.1"></v-text-field>
           </v-form>
         </v-card-text>
-        <v-card-actions class ="align-center justify-center">
+        <v-card-actions class="align-center justify-center">
           <v-btn color="primary" class="text-center" text @click="dialog2 = false">Apply Filter</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- Search Session -->
     <v-col>
       <v-toolbar dark color="blue darken-3">
         <v-checkbox label="Select All" hide-details></v-checkbox>
         <v-spacer></v-spacer>
-        <!-- <v-icon>mdi-magnify</v-icon> -->
-        <v-text-field clearable flat solo-inverted hide-details label="Search"></v-text-field>
+        <v-text-field
+          flat
+          solo-inverted
+          hide-details
+          v-model="search"
+          label="Search"
+          type="text"
+        ></v-text-field>
         <v-spacer></v-spacer>
         <v-btn color="dark" class="ma-2" light @click="dialog2 = true" laber="Filter">
           <v-icon>mdi-format-list-bulleted-square</v-icon>
         </v-btn>
       </v-toolbar>
 
+      <!-- Applicant List Session -->
       <div class="applicant-list">
         <v-list shaped>
           <v-list-item-group>
             <v-list-item
-              v-for="(applicant,index) in applicants"
+              v-for="(applicant,index) in filteredApplicants"
               :key="index"
               @click="selectApplicant(index), selectedApplicant = index"
               v-slot:default="{ active, toggle }"
@@ -64,12 +74,17 @@
 
     <v-col>
       <div class="applicant-view">
-        <iframe :src=filePath style="width:100%; height:100%"></iframe>
+        <iframe :src="filePath" style="width:100%; height:100%"></iframe>
       </div>
-      <v-container >
-              <v-btn small  color="success" dark @click="changeStatus(selectedApplicant,'Approved')" >Approve</v-btn>
-              <v-btn small  color="error" dark @click="changeStatus(selectedApplicant,'Rejected')">Reject</v-btn>
-              <v-btn small  color="warning" dark @click="changeStatus(selectedApplicant,'Pending')">Pending</v-btn>
+      <v-container>
+        <v-btn
+          small
+          color="success"
+          dark
+          @click="changeStatus(selectedApplicant,'Approved')"
+        >Approve</v-btn>
+        <v-btn small color="error" dark @click="changeStatus(selectedApplicant,'Rejected')">Reject</v-btn>
+        <v-btn small color="warning" dark @click="changeStatus(selectedApplicant,'Pending')">Pending</v-btn>
       </v-container>
     </v-col>
   </v-container>
@@ -79,49 +94,74 @@ import axios from "axios";
 export default {
   data: function() {
     return {
+      search: "",
       dialog2: false,
       department: ["All", "ICT", "WEO", "NANO", "BP"],
-      wave: [1,2,3,4],
+      wave: [1, 2, 3, 4],
       switch1: false,
       mark: 5.5,
-      filePath: '',
+      filePath: "",
       selectedApplicant: null,
       applicants: [],
-      };
+      searchApplicants: []
+    };
   },
-  mounted: function(){
-    this.getAllApplicant()
+  mounted: function() {
+    this.getAllApplicant();
+  },
+  computed: {
+    filteredApplicants() {
+      return this.searchApplicants.filter(applicant => {
+        return applicant.full_name
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/đ/g, "d")
+          .replace(/Đ/g, "D")
+          .toLowerCase()
+          .match(
+            this.search
+              .toLowerCase()
+              .replace(/đ/g, "d")
+              .replace(/Đ/g, "D")
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+          );
+      });
+    }
   },
   methods: {
-    getAllApplicant: function(){
+    getAllApplicant: function() {
       axios
-      .get("http://192.168.64.2/php/process.php?action=initialLoad")
-      .then(response => {
-        if (response.data.error) {
-          alert(response.data.message);
-        } else {
-          this.applicants = response.data.user;
-        }
-      });
+        .get("http://192.168.64.2/php/process.php?action=initialLoad")
+        .then(response => {
+          if (response.data.error) {
+            alert(response.data.message);
+          } else {
+            this.applicants = response.data.user;
+            this.searchApplicants = response.data.user;
+          }
+        });
     },
     selectApplicant: function(id) {
-      var count = id+1
-      this.filePath = './file-test/test'+count+'.pdf';
+      var count = id + 1;
+      this.filePath = "./file-test/test" + count + ".pdf";
     },
-    changeStatus: function(id,stt){
-      var sent_data = new FormData()
-      sent_data.append("id",this.applicants[id].id)
-      sent_data.append("form_status",stt)
+    changeStatus: function(id, stt) {
+      var sent_data = new FormData();
+      this.applicants[id].form_status = stt;
+      sent_data.append("id", this.applicants[id].id);
+      sent_data.append("form_status", stt);
       axios
-        .post("http://192.168.64.2/php/process.php?action=update_form_status", sent_data)
+        .post(
+          "http://192.168.64.2/php/process.php?action=update_form_status",
+          sent_data
+        )
         .then(function(response) {
           if (response.data.error) {
             console.log(response.data.message);
           } else {
-            console.log(response.data.message)
+            console.log(response.data.message);
           }
-        }).finally(()=>{
-          this.getAllApplicant()
         });
     }
   }

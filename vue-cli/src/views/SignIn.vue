@@ -2,9 +2,10 @@
   <v-app>
     <v-dialog v-model="dialogForget" max-width="500px">
       <v-card>
-        <v-card-title>Filter</v-card-title>
-        <v-card-text></v-card-text>
-        <v-card-actions>
+        <v-card-title>Please Fill-in your registed email</v-card-title>
+        <v-card-text>We will send an alternative password to your email, change it after you logged in sucesfully!</v-card-text>
+        <v-card-text><v-text-field label="Enter you email"></v-text-field></v-card-text>
+        <v-card-actions class="align-center justify-center">
           <v-btn color="primary" text @click="dialogForget = false">Close</v-btn>
         </v-card-actions>
       </v-card>

@@ -1,26 +1,38 @@
 <template>
-    <v-simple-table>
+<v-row>
+<v-col cols="12" md="6"><PieChart /></v-col>
+      <v-col cols="12" md="6" class= 'd-flex align-center justify-center'> 
+        <v-container>
+        <v-simple-table height="25%">
     <template v-slot:default>
       <thead>
         <tr>
           <th class="text-left">Applicant Status</th>
-          <th class="text-left">Total</th>
-          <th class="text-left">Percentage</th>
+          <th class="text-center">Total</th>
+          <th class="text-right">Percentage</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         <tr v-for="item in applicantData" :key="item.status">
-          <td>{{ item.status }}</td>
-          <td>{{ item.total }}</td>
-          <td>{{ item.percen }}</td>
+          <td class="text-left">{{ item.status }}</td>
+          <td class="text-center">{{ item.total }}</td>
+          <td class="text-right">{{ item.percen }}</td>
         </tr>
       </tbody>
     </template>
   </v-simple-table>
+        </v-container>
+      </v-col>
+</v-row>
 </template>
 
 <script>
+import PieChart from "./PieChart.vue";
+
   export default {
+    components: {
+    PieChart
+  },
     data () {
       return {
         applicantData: [
@@ -44,3 +56,8 @@
     },
   }
 </script>
+<style scoped>
+th {
+  font-size: 20px;
+}
+</style>

@@ -1,5 +1,6 @@
 <template>
   <v-container fluid style="margin: 0px; padding: 0px; width: 100%; height: 80vh">
+    <!-- Add new wave dialog -->
     <v-dialog v-model="formNew" max-width="500px">
       <v-card>
         <v-card-title class="align-center justify-center">Create a new wave</v-card-title>
@@ -27,7 +28,7 @@
       </v-card>
     </v-dialog>
 
-
+<!-- Edit wave diaglog -->
     <v-dialog v-model="formEdit" max-width="500px">
       <v-card>
         <v-card-title class="align-center justify-center">Edit a new wave</v-card-title>
@@ -54,7 +55,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
+<!-- Wave List Session -->
     <div style="height: 50vh; overflow-y: scroll ;">
       <v-list>
         <v-list-item-group>
@@ -81,7 +82,7 @@
         </v-list-item-group>
       </v-list>
     </div>
-
+<!-- Add wave button -->
     <div
       style="display: flex;
                     justify-content: center;
@@ -110,10 +111,10 @@ export default {
   },
   computed: {
       dateRangeText () {
-        return "Wave starts from " + this.dates.join(' to ')
+        return this.dates.join(' to ')
       },
       dateEditRangeText () {
-        return "Wave starts from " + this.datesEdit.join(' to ')
+        return this.datesEdit.join(' to ')
       },
     },
   mounted: function() {
@@ -151,8 +152,8 @@ export default {
       this.formNew = false;
       console.log(this.dates[0],this.dates[1])
       var formData = new FormData;
-      formData.append('start_date', this.dates[1])
-      formData.append('end_date', this.dates[0])
+      formData.append('start_date', this.dates[0])
+      formData.append('end_date', this.dates[1])
       axios
         .post("http://192.168.64.2/php/process.php?action=add_wave", formData)
         .then(function(response) {
@@ -177,8 +178,8 @@ export default {
       var sent_data = new FormData()
       console.log(this.selectedWave.id, this.selectedWave.date_start, this.selectedWave.date_end)
       sent_data.append("id",this.selectedWave.id)
-      sent_data.append("start_date",this.datesEdit[0])
-      sent_data.append("end_date",this.datesEdit[1])
+      sent_data.append("start_date",this.datesEdit[1])
+      sent_data.append("end_date",this.datesEdit[0])
       axios
         .post("http://192.168.64.2/php/process.php?action=update_wave", sent_data)
         .then(function(response) {
