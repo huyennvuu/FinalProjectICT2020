@@ -26,7 +26,7 @@
       </v-tabs>
       <v-layout fluid height="90vh">
         <keep-alive>
-          <component :is="selectedComponents"></component>
+          <component :is="selectedComponents" props='user'></component>
         </keep-alive>
       </v-layout>
     </v-card>
@@ -43,7 +43,8 @@ export default {
   data: function() {
     return {
       selectedComponents: "staffHome",
-      active: null
+      active: null,
+      user: []
     };
   },
   components: {

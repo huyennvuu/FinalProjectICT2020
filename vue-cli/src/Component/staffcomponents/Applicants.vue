@@ -5,6 +5,7 @@
         <v-card-title>Filter</v-card-title>
         <v-card-text>
           <v-form>
+            <v-select :items="wave" label="Wave"></v-select>
             <v-select :items="department" label="Department"></v-select>
             <v-switch v-model="switch1" :label="`Award and Distinctions`"></v-switch>
             <v-text-field type="number" label="Average Score" max=10 step=0.1></v-text-field>
@@ -33,7 +34,7 @@
             <v-list-item
               v-for="(applicant,index) in applicants"
               :key="index"
-              @click="selectApplicant(index)"
+              @click="selectApplicant(index), selectedApplicant = index"
               v-slot:default="{ active, toggle }"
             >
               <template :color="active ? undefined : 'grey darken-3'" @click="toggle;">
@@ -42,18 +43,17 @@
                 </div>
                 <v-list-item-content>
                   <v-list-item-title>{{applicant.full_name}}</v-list-item-title>
-                  <v-list-item-subtitle>
-                    Gender: {{applicant.gender}}
+                  <v-list-item-subtitle class="wrap-text">
+                    Avg Score: {{applicant.gpa_mark_10}}
                     <v-divider vertical></v-divider>
                     Department: {{applicant.name}}
                     <v-divider vertical></v-divider>
-                    Score: {{applicant.gpa_mark_10}}
+                    Gender: {{applicant.gender}}
                   </v-list-item-subtitle>
                   <v-divider vertical></v-divider>
                 </v-list-item-content>
                 <div>
-                  <v-list-item-title>Status:</v-list-item-title>
-                  <v-chip color="warning" text-color="white" x-small>Pending</v-chip>
+                  <v-list-item-title>Status: {{applicant.form_status}}</v-list-item-title>
                 </div>
               </template>
             </v-list-item>
@@ -69,9 +69,9 @@
         <!-- <object data=filePath  type=”application/pdf” width=”100%” height=”100%” /> -->
       </div>
       <v-container >
-              <v-btn small  color="success" dark>Approve</v-btn>
-              <v-btn small  color="error" dark>Reject</v-btn>
-              <v-btn small  color="warning" dark>Pending</v-btn>
+              <v-btn small  color="success" dark @click="changeStatus(selectedApplicant,'Approved')" >Approve</v-btn>
+              <v-btn small  color="error" dark @click="changeStatus(selectedApplicant,'Rejected')">Reject</v-btn>
+              <v-btn small  color="warning" dark @click="changeStatus(selectedApplicant,'Pending')">Pending</v-btn>
       </v-container>
     </v-col>
   </v-container>
@@ -83,14 +83,20 @@ export default {
     return {
       dialog2: false,
       department: ["All", "ICT", "WEO", "NANO", "BP"],
+      wave: [1,2,3,4],
       switch1: false,
       mark: 5.5,
       filePath: '',
+      selectedApplicant: null,
       applicants: [],
       };
   },
-  created: function() {
-    axios
+  mounted: function(){
+    this.getAllApplicant()
+  },
+  methods: {
+    getAllApplicant: function(){
+      axios
       .get("http://192.168.64.2/php/process.php?action=initialLoad")
       .then(response => {
         if (response.data.error) {
@@ -99,13 +105,27 @@ export default {
           this.applicants = response.data.user;
         }
       });
-  },
-  methods: {
+    },
     selectApplicant: function(id) {
       var count = id+1
       this.filePath = './file-test/test'+count+'.pdf';
-      console.log(this.filePath)
-    } 
+    },
+    changeStatus: function(id,stt){
+      console.log(id)
+      this.applicants[id].form_status = stt
+      var sent_data = new FormData()
+      sent_data.append("id",this.applicants[id].id)
+      sent_data.append("form_status",stt)
+      axios
+        .post("http://192.168.64.2/php/process.php?action=update_form_status", sent_data)
+        .then(function(response) {
+          if (response.data.error) {
+            console.log(response.data.message);
+          } else {
+            console.log(response.data.message)
+          }
+        });
+    }
   }
 };
 </script>
@@ -134,5 +154,8 @@ export default {
   width: 100%;
   height: 8%;
   background-color: blanchedalmond;
+}
+.wrap-text {
+  -webkit-line-clamp: unset !important;
 }
 </style>
